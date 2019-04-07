@@ -1,0 +1,14 @@
+# 运行端口号
+server:
+  port: 8900
+spring:
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: zwtwoshichaoren
+# 日志级别
+logging:
+  level:
+    org.yf: debug
+    root: info
