@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理首页</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">xxx后台管理</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    用户
+                </a>
+            </li>
+            <li class="layui-nav-item"><a href="">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll" >
+            <ul class="layui-nav layui-nav-tree" lay-filter="left-nav">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="#">权限管理</a></dd>
+                        <dd><a href="#">码值管理</a></dd>
+                        <dd><a href="#">菜单管理</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a onclick="jump('user/query.html')">查询用户</a></dd>
+                        <dd><a onclick="jump('user/add.html')">新建用户</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">查询订单</a></dd>
+                        <dd><a href="javascript:;">新建订单</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">商品管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">查询商品</a></dd>
+                        <dd><a href="">新建商品</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">关于我们</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <iframe id="container" lay-filter="container" src="/user/add.html" style="width: 100%;height: 100%"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script>
+    var $,element;
+    //JavaScript代码区域
+    layui.use(['element','jquery'], function(){
+        element = layui.element;
+        $ = layui.$
+        element.render('nav', 'left-nav');
+
+
+    });
+
+    /**
+     * 页面(iframe)跳转
+     * @param url 目标地址
+     */
+    function jump(url){
+        $('#container').attr('src',url);
+        element.init();
+    }
+</script>
+</body>
+</html>
