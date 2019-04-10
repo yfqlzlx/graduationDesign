@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yf.manage.mapper.UserMapper">
+
+    <select id="queryUser" resultType="org.yf.common.entity.User">
+        select
+          *
+        from
+          user a
+        <where>
+            <if test="arg1.username != null and arg1.username !=''">
+                a.username=#{arg1.username}
+            </if>
+            <if test="arg1.phone != null and arg1.phone!= ''">
+                and a.phone=#{arg1.phone}
+            </if>
+            <if test="arg1.mail != null and arg1.mail != ''" >
+                and a.mail=#{arg1.mail}
+            </if>
+            <if test="arg1.type != null and arg1.type != ''">
+                and a.type=#{arg1.type}
+            </if>
+        </where>
+    </select>
+</mapper>

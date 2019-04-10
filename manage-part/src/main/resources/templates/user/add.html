@@ -7,24 +7,24 @@
     <script src="/static/layui/layui.all.js"></script>
 </head>
 <body>
-<form class="layui-form" action="/user/add" method="post">
+<form class="layui-form" action="/user/add" method="post" >
     <div class="layui-form-item">
         <div class="layui-inline interval">
             <label class="layui-form-label">账号</label>
             <div class="layui-input-inline" style="width: 200px;">
-                <input type="text" name="username" autocomplete="off" class="layui-input">
+                <input type="text" name="username" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline" style="width: 200px;">
-                <input type="password" name="password" autocomplete="off" class="layui-input">
+                <input type="password" name="password" autocomplete="off" value="123456" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">手机号</label>
             <div class="layui-input-inline" style="width: 200px;">
-                <input type="text" name="phone" autocomplete="off" class="layui-input">
+                <input type="text" name="phone" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
     </div>
@@ -38,15 +38,15 @@
         <div class="layui-inline">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
-                <input type="radio" name="type" value="nan" title="用户" checked>
-                <input type="radio" name="type" value="nv" title="员工" >
+                <input type="radio" name="type" value="10000001" title="用户" checked>
+                <input type="radio" name="type" value="10000002" title="员工" >
             </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn" lay-submit lay-filter="addUser">添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary" id="reset-btn">重置</button>
         </div>
 </form>
 </body>
@@ -54,8 +54,30 @@
     var form;
     layui.use(['element','jquery','form'], function(){
         var element = layui.element;
-        var $ = layui.$
+        var $ = layui.$;
         form = layui.form;
+        form.on('submit(addUser)',function(data){
+            $.ajax({
+                type: 'POST'
+                ,url: '/api/user/add'
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(data.field)
+                ,success: function(response){
+                    if(response.code === 405){
+                        layer.alert("用户已存在");
+                    }else if(response.code === 200){
+                        layer.alert('添加成功');
+                        $('#reset-btn').click();
+                    }else{
+                        layer.alert('未知异常')
+                    }
+                }
+                ,error:function(error){
+                    layer.alert('未知异常')
+                }
+            });
+            return false;
+        })
     });
     (function () {
         form.render();

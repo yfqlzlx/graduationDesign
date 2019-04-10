@@ -1,10 +1,16 @@
 package org.yf.manage;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author yf
+ * @date 2019/4/9 09:40
+ */
 @SpringBootApplication
+@MapperScan(basePackages = "org.yf.manage.mapper")
 public class ManagePartApplication implements CommandLineRunner {
 
     public static void main(String[] args) {

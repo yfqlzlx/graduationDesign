@@ -3,6 +3,7 @@ package org.yf.user;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.yf.common.entity.User;
 
 /**
  * @date 2019/4/7 19:30:21

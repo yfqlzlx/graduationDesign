@@ -1,13 +1,18 @@
-# ÔËĞĞ¶Ë¿ÚºÅ
+# ç«¯å£
 server:
-  port: 9000
+  port: 8900
 spring:
-  # Êı¾İ¿âÅäÖÃ
+  # æ•°æ®åº“
   datasource:
-    url: jdbc:mysql://localhost:3306/test
+    url: jdbc:mysql://118.24.197.243:3306/graduationdesign
     username: root
-    password: zwtwoshichaoren
-# ÈÕÖ¾¼¶±ğ
+    password: mysql!@#$1234
+  # é…ç½®thymeleaf
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    mode: LEGACYHTML5
+# æ—¥å¿—çº§åˆ«
 logging:
   level:
     org.yf: debug

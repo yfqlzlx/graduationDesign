@@ -11,4 +11,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <description>管理系统</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.yf</groupId>
+            <artifactId>commoms</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 </project>

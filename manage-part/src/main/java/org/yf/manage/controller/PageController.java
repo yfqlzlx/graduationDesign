@@ -33,4 +33,9 @@ public class PageController {
     public String toPage(@PathVariable String folderName, @PathVariable String fileName) {
         return folderName + "/" +fileName;
     }
+
+    @RequestMapping(value = "/{fileName}.html", method = RequestMethod.GET)
+    public String toPage(@PathVariable String fileName) {
+        return fileName;
+    }
 }
