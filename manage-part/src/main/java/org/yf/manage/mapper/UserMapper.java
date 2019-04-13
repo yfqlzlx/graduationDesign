@@ -20,5 +20,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user 条件
      * @return 满足条件的结果
      */
-    List<User> queryUser(IPage page,User user);
+    IPage<User> queryUser(IPage page,User user);
 }

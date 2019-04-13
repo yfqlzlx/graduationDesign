@@ -42,7 +42,7 @@ public interface IUserService extends IService<User> {
      * @param param 查询条件和分页信息
      * @return 满足条件的用户
      */
-    List<User> queryUser(PageParam param);
+    Response queryUser(PageParam param);
 
     /**
      * 根据id删除用户

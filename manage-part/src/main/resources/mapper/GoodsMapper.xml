@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.yf.manage.mapper.GoodsMapper">
+
+    <select id="queryGoods" resultType="org.yf.common.entity.Goods">
+        select
+          *
+        from
+          goods a
+        <where>
+            <if test="arg1.goodsType != null and arg1.goodsType!= ''">
+                and a.goods_type = #{arg1.goodsType}
+            </if>
+            <if test="arg1.goodsName != null and arg1.goodsName!= ''">
+                and a.goods_name = #{arg1.goodsName}
+            </if>
+            <if test="arg1.goodsNum != null and arg1.goodsNum!= ''">
+                and a.goods_num = #{arg1.goodsNum}
+            </if>
+            <if test="arg1.goodsPrice != null and arg1.goodsPrice!= ''">
+                and a.goods_price = #{arg1.goodsPrice}
+            </if>
+            <if test="arg1.goodsTally != null and arg1.goodsTally!= ''">
+                and a.goods_tally = #{arg1.goodsTally}
+            </if>
+        </where>
+        order by insert_time desc
+    </select>
+</mapper>

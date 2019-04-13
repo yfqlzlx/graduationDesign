@@ -47,7 +47,8 @@ public class Generator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
 //        String projectPath = System.getProperty("user.dir");
-        String projectPath = "org/yf/common";
+//        String projectPath = "org/yf/common";
+        String projectPath = "org/yf/commons";
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("yf");
         gc.setOpen(false);
@@ -55,11 +56,11 @@ public class Generator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://118.24.197.243:3306/graduationdesign");
+        dsc.setUrl("jdbc:mysql://localhost:3306/graduationdesign?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("mysql!@#$1234");
+        dsc.setPassword("zwtwoshichaoren");
         mpg.setDataSource(dsc);
 
         // 包配置

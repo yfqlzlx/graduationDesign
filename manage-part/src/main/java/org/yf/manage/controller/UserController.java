@@ -1,15 +1,12 @@
 package org.yf.manage.controller;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.yf.common.entity.User;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
 import org.yf.manage.service.IUserService;
 
-import java.util.Map;
 
 /**
  * @author yfqlzlx
@@ -59,7 +56,7 @@ public class UserController {
      */
     @PostMapping(value = "/query")
     public Response queryUser(@RequestBody PageParam param){
-        return new Response(200,userService.queryUser(param));
+        return userService.queryUser(param);
     }
 
     /**

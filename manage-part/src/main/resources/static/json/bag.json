@@ -1,0 +1,16 @@
+[
+  {"name":"男包", "value": 201}
+  ,{"name":"女包", "value": 202}
+  ,{"name":"双肩包", "value": 203}
+  ,{"name":"旅行箱", "value": 204}
+  ,{"name":"手提包", "value": 205}
+  ,{"name":"链条包", "value": 206}
+  ,{"name":"手拿包", "value": 207}
+  ,{"name":"钱包", "value": 208}
+  ,{"name":"妈妈包", "value": 209}
+  ,{"name":"零钱包", "value": 210}
+  ,{"name":"单肩包", "value": 211}
+  ,{"name":"迷你包", "value": 212}
+  ,{"name":"小方包", "value": 213}
+  ,{"name":"手工皮具", "value": 214}
+]

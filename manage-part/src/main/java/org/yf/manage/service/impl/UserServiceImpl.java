@@ -49,15 +49,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public Response getAllUser(int pageNo,int pageSize) {
         IPage page = new Page(pageNo,pageSize);
-        IPage dbData = userMapper.selectPage(page, new QueryWrapper<User>().orderByAsc("insert_time"));
+        IPage dbData = userMapper.selectPage(page, new QueryWrapper<User>().orderByDesc("insert_time"));
         return new Response(200,dbData.getRecords()).setTotalSize(dbData.getTotal());
     }
 
     @Override
-    public List<User> queryUser(PageParam param) {
+    public Response queryUser(PageParam param) {
         User user = JSON.parseObject(param.getParam().toString()).toJavaObject(User.class);
         IPage<User> page = new Page<>(param.getPage(),param.getLimit());
-        return userMapper.queryUser(page,user);
+        IPage<User> queryUser = userMapper.queryUser(page, user);
+        return new Response(200,queryUser.getRecords()).setTotalSize(queryUser.getTotal());
     }
 
     @Override
