@@ -1,0 +1,202 @@
+<html>
+<header>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>登录</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <style>
+        body{
+            background-image: url('/static/img/login_back.jpg');
+        }
+        .login-form{
+            background-color: #eec609;
+            width:400px;
+            height: 330px;
+            border-radius: 10px;
+            margin-top: 200px;
+            margin-left: 520px;
+        }
+        .interval{
+            padding-top: 15px;
+        }
+        .login-regist{
+            padding-left: 100px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .login-valid{
+            width: 150px;
+            height: 40px;
+        }
+    </style>
+</header>
+<body >
+    <form class="layui-form login-form">
+        <div class="layui-form-item interval">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block" style="width: 200px">
+                <input type="text" name="username" placeholder="请输入账号" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block" style="width: 200px">
+                <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="width: 200px">
+                <img src="/static/img/validCode.png" class="login-valid"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-block" style="width: 200px">
+                <input type="password" name="vaildCode" placeholder="请输入验证码" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="login" style="background-color:#e7801a;width: 200px">登录</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <span class="login-regist" id="toRegist">还没有账号？点击注册</span>
+        </div>
+    </form>
+</body>
+
+<script>
+    var $,element,form;
+    //JavaScript代码区域
+    layui.use(['element','jquery','form'], function(){
+        element = layui.element;
+        $ = layui.$;
+        form = layui.form;
+
+        /**
+         * 登录
+         */
+        form.on('submit(login)',function (data) {
+            $.ajax({
+                type: 'POST'
+                ,url: '/api/user/login'
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(data.field)
+                ,success: function(response){
+                    if(response.code === 405){
+                        layer.alert("账号或密码错误");
+                    }else if(response.code === 200){
+                        console.log("登录成功");
+                        window.location.href = '../index.html'
+                    }else{
+                        layer.alert('未知异常')
+                    }
+                }
+                ,error:function(error){
+                    layer.alert('未知异常')
+                }
+            });
+            return false;
+        });
+
+        /**
+         * 打开注册弹窗
+         */
+        $('#toRegist').click(function () {
+            layer.open({
+                type: 1
+                ,title: '用户注册'
+                ,area: ['400px','350px']
+                ,resize: false
+                ,content: $('#regist-div')
+                ,success: function () {
+                    console.log("打开成功")
+                }
+            })
+        });
+
+        /**
+         * 注册
+         */
+        form.on('submit(registBtn)',function (data) {
+            console.log(data.field);
+            $.ajax({
+                type: 'POST'
+                ,url: '/api/user/registry'
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(data.field)
+                ,success: function(response){
+                    if(response.code === 405){
+                        layer.alert("该账号已经存在");
+                    }else if(response.code === 200){
+                        console.log("注册成功");
+                        $('#closeBtn').click();
+                        layer.closeAll();
+                        layer.msg("注册成功");
+                    }else{
+                        layer.alert('注册失败')
+                    }
+                }
+                ,error:function(error){
+                    layer.alert('未知异常')
+                }
+            });
+            return false;
+        });
+
+       window.onload = function (ev) {
+           /**
+            * 关闭注册
+            */
+           $('#closeBtn').click(function(){
+               layer.closeAll()
+           })
+       }
+
+    });
+</script>
+</html>
+<div id="regist-div" style="display: none">
+    <form class="layui-form" id="regist-form" lay-filter="regist-form">
+        <div class="layui-form-item">
+            <div class="layui-inline interval">
+                <label class="layui-form-label">账号</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="username" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="password" name="password" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="phone" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="mail" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-input-block" style="margin-left: 200px">
+                <button class="layui-btn" lay-submit="lay-submit" lay-filter="registBtn">注册</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="closeBtn">关闭</button>
+            </div>
+        </div>
+    </form>
+</div>

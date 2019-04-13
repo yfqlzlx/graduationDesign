@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <style>
+        body{
+            font-family: "Microsoft YaHei UI",serif;
+        }
+        .header-logo{
+            font-weight: 400;
+            font-size: 28px;
+        }
+        .header{
+            background-color: #5a9d70;
+        }
+        .header span{
+            cursor: pointer;
+            line-height: 40px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body class="layui-container">
+    <!-- 抬头 -->
+    <div class="layui-row header" style="height: 40px;width: 100%">
+        <div class="layui-col-md4">
+            <span class="header-logo">xxx购物商城</span>
+        </div>
+        <div class="layui-col-md2">
+            <span style="align-content: center">消息</span>
+        </div>
+        <div class="layui-col-md2">
+            <span>购物车</span>
+        </div>
+        <div class="layui-col-md2">
+            <span>收藏</span>
+        </div>
+        <div class="layui-col-md2">
+            <span>足迹</span>
+        </div>
+    </div>
+</div>
+<script>
+    var $,element;
+    //JavaScript代码区域
+    layui.use(['element','jquery'], function(){
+        element = layui.element;
+        $ = layui.$;
+
+    });
+</script>
+</body>
+</html>

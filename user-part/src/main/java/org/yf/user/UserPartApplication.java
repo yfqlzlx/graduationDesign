@@ -12,7 +12,7 @@ import org.yf.common.entity.User;
  * 用户模块的主启动类
  */
 @SpringBootApplication
-@MapperScan
+@MapperScan(value = "org.yf.user.mapper")
 public class UserPartApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
