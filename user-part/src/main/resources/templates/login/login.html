@@ -7,7 +7,8 @@
     <script src="/static/layui/layui.all.js"></script>
     <style>
         body{
-            background-image: url('/static/img/login_back.jpg');
+            background: url('/static/img/login_back.jpg') no-repeat fixed;
+            background-size: cover;
         }
         .login-form{
             background-color: #eec609;
@@ -26,7 +27,7 @@
             cursor: pointer;
         }
         .login-valid{
-            width: 150px;
+            width: 200px;
             height: 40px;
         }
     </style>
@@ -47,7 +48,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block" style="width: 200px">
-                <img src="/static/img/validCode.png" class="login-valid"/>
+                <img src="/api/user/validImg" class="login-valid" id="vaild-src"/>
             </div>
         </div>
         <div class="layui-form-item">
@@ -89,7 +90,11 @@
                         layer.alert("账号或密码错误");
                     }else if(response.code === 200){
                         console.log("登录成功");
+                        // 保存登录信息
+                        layui.data('userStore',data.field)
                         window.location.href = '../index.html'
+                    }else if(response.code === 406){
+                        layer.alert("验证码错误");
                     }else{
                         layer.alert('未知异常')
                     }
@@ -145,6 +150,17 @@
             });
             return false;
         });
+
+        /**
+         *  刷新验证码
+         */
+        $('#vaild-src').click(function () {
+            console.log('切换src');
+            $(this).attr('src','/api/user/validImg');
+        });
+
+
+
 
        window.onload = function (ev) {
            /**

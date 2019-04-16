@@ -1,6 +1,5 @@
 package org.yf.common.response;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

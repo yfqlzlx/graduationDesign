@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/common/header.css">
+    <link rel="stylesheet" href="/static/css/common/search.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <style>
+        .breadcrumb-div{
+            color: #53b7ee;
+            cursor: pointer;
+        }
+        .goods-info-div{
+            width: 80%;
+            min-height: 400px;
+        }
+        .goods-info-none{
+            width: 300px;
+            height: 100px;
+            margin-top: 100px;
+            margin-left: 100px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="layui-container">
+    <!-- header -->
+    <div class="layui-row header" style="height: 40px;width: 100%">
+        <div class="layui-col-md4">
+            <span class="header-logo" onclick="window.location.href='/index.html'">零一购物商城</span>
+        </div>
+        <div class="layui-col-md2">
+            <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</span>
+        </div>
+        <div class="layui-col-md2">
+            <span><i class="fa fa-cart-plus" aria-hidden="true"></i>购物车</span>
+        </div>
+        <div class="layui-col-md2">
+            <span><i class="fa fa-star" aria-hidden="true"></i>收藏</span>
+        </div>
+        <div class="layui-col-md2">
+            <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>足迹</span>
+        </div>
+    </div>
+
+    <!-- search -->
+    <div class="search-div">
+        <div class="search-logo">
+            <img src="/static/img/breviary.png" style="width: 100%;height: 100%"/>
+        </div>
+        <div class="search-input" style="width: 60%">
+            <input placeholder="  请输入商品参数" />
+            <div>搜索</div>
+        </div>
+    </div>
+
+    <!-- container -->
+    <div class="container-div">
+        <div class="breadcrumb-div"><span onclick="window.location.href='/index.html'">所有商品>></span><hr/></div>
+        <div class="goods-info-div" id="goods-info-div"></div>
+    </div>
+
+</body>
+<script>
+    var $;
+    layui.use(['jquery'],function(){
+        $ = layui.jquery;
+        var key = layui.data('goods').typeId;
+
+        /**
+         * 初始化页面
+         */
+        function init(){
+            console.log(key)
+            $.ajax({
+                type: 'get'
+                ,url: '/api/goods/all/' + key
+                ,async: false
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: {
+                    pageNo: 1
+                    ,pageSize: 40
+                }
+                ,success: function (response) {
+                    var str = "";
+                    var data = response.data;
+                    if(data.length === 0){
+                        // 没有商品
+                        str += "<div class='goods-info-none'>没有该类商品，敬请期待</div>"
+                    }
+                    $('#goods-info-div').html(str);
+                }
+            })
+        }
+        init();
+    })
+</script>
+</html>

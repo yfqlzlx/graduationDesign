@@ -12,30 +12,35 @@
         <div class="layui-inline" >
             <label class="layui-form-label">类型</label>
             <div class="layui-input-inline" style="width: 200px;">
-                <select id="mold" lay-filter="mold">
+                <select  lay-filter="first" lay-verify="required" id="first">
                     <option value="">请选择一个类型</option>
-                    <option value="clothes">衣物</option>
-                    <option value="bag">箱包</option>
-                    <option value="phone">手机</option>
                 </select>
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">分类</label>
             <div class="layui-input-inline" style="width: 200px;">
-                <select id="type" name="goodsType" lay-filter="type">
+                <select id="second" lay-filter="second" lay-verify="required">
                     <option value="">请选择一个类型</option>
                 </select>
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">分类</label>
+            <div class="layui-input-inline" style="width: 200px;">
+                <select id="type" name="goodsType" lay-filter="type" lay-verify="required">
+                    <option value="">请选择一个类型</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">商品名</label>
             <div class="layui-input-inline" style="width: 200px;">
                 <input type="text" name="goodsName" autocomplete="off" class="layui-input">
             </div>
         </div>
-    </div>
-    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">库存</label>
             <div class="layui-input-inline" style="width: 200px;">
@@ -48,6 +53,8 @@
                 <input type="text" name="goodsPrice" autocomplete="off" class="layui-input">
             </div>
         </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">计量单位</label>
             <div class="layui-input-inline" style="width: 200px;">
@@ -71,28 +78,86 @@
         form = layui.form;
         var table = layui.table;
 
-        // 下拉菜单联动
-        form.on('select(mold)', function(data){
+        /**
+         * 初始化下拉菜单
+         */
+        function init(){
+            $.ajax({
+                type: 'get'
+                ,url: '/api/goodsType/first'
+                ,async: false
+                ,contentType: "application/json;charset=UTF-8"
+                ,success: function(response){
+                    var first = response.data;
+                    var str;
+                    for(var i in first){
+                        str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
+                    }
+                    $('#first').append(str)
+                    form.render();
+                    console.log("初始化完成")
+                }
+                ,error:function(error){
+                    layer.alert('初始化异常，请刷新重试')
+                }
+            });
+        }
+        init();
+
+
+        /**
+         *  商品类型下拉监听---一级菜单
+         */
+        form.on('select(first)', function(data){
+            console.log("一级菜单点击");
             var dest = data.value ;
+            console.log("一级菜单点击:"+dest);
             if(dest === ""){
+                $('#second').html('<option value="">请选择一个类型</option>');
                 $('#type').html('<option value="">请选择一个类型</option>');
                 form.render('select');
                 return ;
             }
             $.ajax({
                 method: 'get'
-                ,url: '/static/json/'+ dest + ".json"
-                ,success: function (data) {
-                    console.log(data);
+                ,url: '/api/goodsType/child/' + dest
+                ,success: function (response) {
+                    var data = response.data;
                     // 动态赋值
-                    var ops = '<option value="">请选择一个类型</option>';
+                    // var ops = '<option value="">请选择一个类型</option>';
+                    var ops;
                     for(var i in data){
-                        ops += '<option value="'+ data[i].value +'">' + data[i].name + "</option>"
+                        ops += '<option value="'+ data[i].typeId +'">' + data[i].typeName + "</option>"
                     }
-                    $('#type').html(ops);
+                    $('#second').append(ops);
                     form.render('select');
                 }
             })
+        });
+
+        /**
+         * 商品类型下拉监听---二级菜单
+         */
+        form.on('select(second)', function(data){
+            var dest = data.value;
+            $.ajax({
+                type: 'get'
+                ,url: '/api/goodsType/child/' + dest
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(data.field)
+                ,success: function(response){
+                    var first = response.data;
+                    var str;
+                    for(var i in first){
+                        str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
+                    }
+                    $('#type').append(str)
+                    form.render('select');
+                }
+                ,error:function(error){
+                    layer.alert('初始化异常，请刷新重试')
+                }
+            });
         });
 
 

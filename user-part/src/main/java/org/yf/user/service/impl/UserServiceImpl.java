@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.yf.common.entity.SystemCode;
 import org.yf.common.entity.User;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
@@ -34,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public boolean addUser(User user) {
         user.setPassword(encodeString(user.getPassword()));
-        user.setInsertTime(LocalDateTime.now());
+        user.setInsertTime(LocalDateTime.now()).setType(SystemCode.USER_CODE);
         return userMapper.insert(user) > 0;
     }
 

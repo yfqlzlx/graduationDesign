@@ -5,53 +5,197 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>首页</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/common/header.css">
+    <link rel="stylesheet" href="/static/css/common/search.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <script src="/static/layui/layui.all.js"></script>
     <style>
-        body{
-            font-family: "Microsoft YaHei UI",serif;
-        }
-        .header-logo{
-            font-weight: 400;
-            font-size: 28px;
-        }
-        .header{
-            background-color: #5a9d70;
-        }
-        .header span{
-            cursor: pointer;
-            line-height: 40px;
-            margin-left: 20px;
-        }
+
     </style>
 </head>
 <body class="layui-container">
-    <!-- 抬头 -->
+    <!-- header -->
     <div class="layui-row header" style="height: 40px;width: 100%">
         <div class="layui-col-md4">
-            <span class="header-logo">xxx购物商城</span>
+            <span class="header-logo" onclick="window.location.href='/index.html'">零一购物商城</span>
         </div>
         <div class="layui-col-md2">
-            <span style="align-content: center">消息</span>
+            <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</span>
         </div>
         <div class="layui-col-md2">
-            <span>购物车</span>
+            <span><i class="fa fa-cart-plus" aria-hidden="true"></i>购物车</span>
         </div>
         <div class="layui-col-md2">
-            <span>收藏</span>
+            <span><i class="fa fa-star" aria-hidden="true"></i>收藏</span>
         </div>
         <div class="layui-col-md2">
-            <span>足迹</span>
+            <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>足迹</span>
         </div>
     </div>
-</div>
+
+    <!-- search -->
+    <div class="search-div">
+        <div class="search-logo">
+            <img src="/static/img/logo.png" style="width: 100%;height: 100%"/>
+        </div>
+        <div class="search-input">
+            <input placeholder="  请输入搜索的商品" />
+            <div>搜索</div>
+        </div>
+        <div class="app-div">
+            <div style="margin-left: 115px;padding-top: 40px">手机商城</div>
+            <img src="/static/img/app.png" style="width: 100px;height: 100px;margin-left: 100px;" />
+        </div>
+    </div>
+
+    <!-- main -->
+    <!-- nav -->
+    <div class="nav-div">
+        <div class="nav-left">主题市场</div>
+        <div class="nav-right"></div>
+    </div>
+    <!-- container -->
+    <div class="container-div">
+        <!-- goodsType -->
+        <div class="container-left" id="left-menu">
+        </div>
+        <div class="layui-carousel container-right" id="carousel">
+            <!-- goods info -->
+            <div class="item-div" id="info-div">
+
+            </div>
+            <!-- carousel -->
+            <div carousel-item class="carousel-item-div">
+                <div><img src="/static/img/carousel1.jpg" /></div>
+                <div><img src="/static/img/carousel2.jpg" /></div>
+                <div><img src="/static/img/carousel3.jpg" /></div>
+                <div><img src="/static/img/carousel4.jpg" /></div>
+            </div>
+        </div>
+    </div>
+
 <script>
     var $,element;
     //JavaScript代码区域
     layui.use(['element','jquery'], function(){
         element = layui.element;
         $ = layui.$;
-
     });
 </script>
 </body>
+<script>
+
+    var form;
+    layui.use(['element','jquery','form','carousel'], function() {
+        var element = layui.element;
+        var $ = layui.$;
+        var carousel = layui.carousel;
+        form = layui.form;
+
+
+        /**
+         *  渲染轮播图
+         */
+        carousel.render({
+            elem: '#carousel'
+            ,width: '80%'
+            ,arrow: 'always'
+        });
+
+
+        /**
+         * 初始化菜单
+         */
+        function init() {
+            $.ajax({
+                type: 'get'
+                ,url: '/api/goodsType/group'
+                ,async: false
+                ,contentType: "application/json;charset=UTF-8"
+                ,success: function(response){
+                    var str = "";
+                    var data = response.data;
+                    $.each(data,function(key,value){
+                        str += '<ul class="menu-ul layui-row" onmouseover="showInfo(' + key+')" onmouseout="hideInfo()">';
+                        for(var i in value){
+                            if(i === 0){
+                                str += '<li class="layui-col-md3 layui-col-md-offset1">' + value[i].typeName + '</li>';
+                            }else{
+                                str += '<li class="layui-col-md3">' + value[i].typeName + '</li>';
+                            }
+                        }
+                        str += '<i class="layui-col-md1 layui-col-md-offset1 fa fa-chevron-right" aria-hidden="true" style="float: right"></i>'
+                        str += '</ul>'
+                    });
+                    $('#left-menu').html(str);
+                    form.render();
+                }
+                ,error:function(error){
+                    layer.alert('初始化异常，请刷新重试')
+                }
+            });
+        }
+        init();
+
+    });
+
+    /**
+     * 显示商品信息
+     * @param key
+     */
+    function showInfo(key) {
+        $.ajax({
+            type: 'get'
+            ,url: '/api/goodsType/info/' + key
+            ,async: false
+            ,contentType: "application/json;charset=UTF-8"
+            ,success: function (response) {
+                var str = "";
+                var data = response.data;
+                $.each(data,function(key,value){
+                    str += '<span class="info-head">' + key + '</span>';
+                    str += '<div class="info-item-div">';
+                    var flag = false;
+                    for(var i in  value){
+                        if( i % 6 === 0){
+                            str += '<div class="layui-row">';
+                            flag = false;
+                        }else{
+                            flag = true;
+                        }
+                        str += '<span class="layui-col-md2 info-content" onclick="jump('+ value[i].typeId +')">' +  value[i].typeName + '</span>'
+                        if( i % 6 === 0 && flag){
+                            str += '</div>'
+                        }
+                    }
+                    str += '</div>'
+                });
+                $('#info-div').html(str)
+                $('#info-div').css('z-index','999')
+            }
+        })
+    }
+
+
+    /**
+     * 隐藏商品信息
+     */
+    function hideInfo() {
+        $('#info-div').css('z-index','-1');
+    }
+
+
+    /**
+     * 跳转到具体商品分类页面
+     * @param typeId
+     */
+    function jump(typeId){
+        layui.data('goods',{
+            key: 'typeId'
+            ,value: typeId
+        });
+        window.location.href = '/goods/goods.html'
+    }
+</script>
 </html>
