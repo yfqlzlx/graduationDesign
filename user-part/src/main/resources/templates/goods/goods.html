@@ -16,7 +16,7 @@
         }
         .goods-info-div{
             width: 80%;
-            min-height: 400px;
+            min-height: 500px;
         }
         .goods-info-none{
             width: 300px;
@@ -25,6 +25,39 @@
             margin-left: 100px;
             font-weight: bold;
             font-size: 20px;
+        }
+        .goods-div{
+            width: 16%;
+            height: 200px;
+            border: 1px  solid #edeec5;
+            margin-left: 3%;
+            float: left;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .goods-div img{
+            width:100%;
+            height: 160px;
+        }
+        .price-div{
+            width: 100%;
+            height: 20px;
+            color: #F40;
+            cursor: pointer;
+        }
+        .desc-div{
+            width: 100%;
+            height: 20px;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            overflow: hidden;
+            word-break:keep-all;
+            cursor: pointer;
+        }
+        .pagination{
+            width: 400px;
+            height: 40px;
+            margin-left: 350px;
         }
     </style>
 </head>
@@ -63,14 +96,20 @@
     <div class="container-div">
         <div class="breadcrumb-div"><span onclick="window.location.href='/index.html'">所有商品>></span><hr/></div>
         <div class="goods-info-div" id="goods-info-div"></div>
+        <div class="pagination" id="pagination"></div>
     </div>
 
 </body>
 <script>
     var $;
-    layui.use(['jquery'],function(){
+    layui.use(['jquery','laypage'],function(){
         $ = layui.jquery;
+        var laypage = layui.laypage;
+        // 获得商品分类id
         var key = layui.data('goods').typeId;
+
+
+
 
         /**
          * 初始化页面
@@ -84,20 +123,56 @@
                 ,contentType: "application/json;charset=UTF-8"
                 ,data: {
                     pageNo: 1
-                    ,pageSize: 40
+                    ,pageSize: 20
                 }
                 ,success: function (response) {
                     var str = "";
                     var data = response.data;
+                    console.log(response)
                     if(data.length === 0){
                         // 没有商品
                         str += "<div class='goods-info-none'>没有该类商品，敬请期待</div>"
+                    }else{
+                        for(var i in data){
+                            str+= addGoods('/api/goods/img/' + data[i].imgUrl,data[i].goods.goodsPrice,data[i].goods.goodsDesc,data[i].goods.id);
+                        }
                     }
                     $('#goods-info-div').html(str);
+                    // 渲染分页
+                    laypage.render({
+                        elem: 'pagination'
+                        ,count: response.totalSize
+                        ,limit: 20
+
+                    })
                 }
             })
         }
         init();
+
+        /**
+         * 添加商品html
+         * @param src
+         * @param price
+         * @param title
+         * @returns {string}
+         */
+        function addGoods(src,price,title,id){
+            return '<div class="goods-div" id="' + id + '"><img src="' + src + '"/><div class="price-div">￥ ' + price + '</div><div class="desc-div" title="' + title + '">'+ title +'</div></div>';
+        }
+
+
+        /**
+         * 查看商品
+         */
+        $('.goods-div').click(function(){
+            var goodsId = $(this).attr('id');
+            layui.data('goods',{
+                key: 'goodsId'
+                ,value: goodsId
+            });
+            window.location.href = '/goods/item.html'
+        })
     })
 </script>
 </html>

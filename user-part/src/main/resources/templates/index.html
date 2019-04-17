@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <script src="/static/layui/layui.all.js"></script>
-    <style>
-
-    </style>
 </head>
 <body class="layui-container">
     <!-- header -->
@@ -62,9 +59,7 @@
         </div>
         <div class="layui-carousel container-right" id="carousel">
             <!-- goods info -->
-            <div class="item-div" id="info-div">
-
-            </div>
+            <div class="item-div" id="info-div"></div>
             <!-- carousel -->
             <div carousel-item class="carousel-item-div">
                 <div><img src="/static/img/carousel1.jpg" /></div>
@@ -75,24 +70,28 @@
         </div>
     </div>
 
-<script>
-    var $,element;
-    //JavaScript代码区域
-    layui.use(['element','jquery'], function(){
-        element = layui.element;
-        $ = layui.$;
-    });
-</script>
 </body>
 <script>
-
-    var form;
+    var form,$;
     layui.use(['element','jquery','form','carousel'], function() {
         var element = layui.element;
-        var $ = layui.$;
+        $ = layui.$;
         var carousel = layui.carousel;
         form = layui.form;
 
+        /**
+         * 显示商品信息
+         */
+        $('#info-div').mouseover(function () {
+            $('#info-div').css('z-index','999')
+        })
+
+        /**
+         * 隐藏商品信息
+         */
+        $('#info-div').mouseout(function () {
+            $('#info-div').css('z-index','-1')
+        })
 
         /**
          *  渲染轮播图

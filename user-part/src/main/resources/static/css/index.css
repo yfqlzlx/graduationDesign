@@ -44,7 +44,7 @@
     height: 100%;
 }
 .menu-ul{
-    margin-top: 5px;
+    padding-top: 5px;
 }
 .menu-ul li{
     cursor: pointer;
@@ -59,7 +59,7 @@
 }
 .item-div{
     position: absolute;
-    z-index: 100;
+    z-index: -1;
     width: 600px;
     height: 500px;
     border: 1px #ee583c solid;

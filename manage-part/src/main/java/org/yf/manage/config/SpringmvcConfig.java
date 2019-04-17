@@ -14,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class SpringmvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 工程静态文件映射
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        // 本地图片映射
+        registry.addResourceHandler("/api/goods/img/**").addResourceLocations("file:D:/素材/gd/");
     }
 }

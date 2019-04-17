@@ -29,7 +29,11 @@ public class GoodsController {
      */
     @GetMapping(value = "/all/{goodsTypeId}")
     public Response getPagedGoods(@PathVariable int goodsTypeId,int pageSize,int pageNo){
-        log.debug(goodsTypeId + "|###|" +pageSize );
         return  goodsService.getPagedGoods(pageNo,pageSize,goodsTypeId);
+    }
+
+    @GetMapping(value = "/get/{goodsId}")
+    public Response getGoodsById(@PathVariable int goodsId){
+        return new Response(200,goodsService.getGoodsById(goodsId));
     }
 }

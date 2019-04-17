@@ -2,6 +2,7 @@ package org.yf.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.yf.common.entity.Goods;
+import org.yf.common.entity.GoodsDto;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
 
@@ -24,4 +25,11 @@ public interface IGoodsService extends IService<Goods> {
      * @return response
      */
     Response getPagedGoods(int pageNo, int pageSize,int goodsTypeId);
+
+    /**
+     * 通过商品id查询商品详情 + 图片
+     * @param goodsId 商品id
+     * @return response
+     */
+    GoodsDto getGoodsById(int goodsId);
 }

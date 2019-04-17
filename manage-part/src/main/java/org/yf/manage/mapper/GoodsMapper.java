@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface GoodsMapper extends BaseMapper<Goods> {
 
     IPage<Goods> queryGoods(IPage page, Goods goods);
+
+    int  insertGoods(Goods goods);
 }

@@ -15,5 +15,6 @@ public class SpringmvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/api/goods/img/**").addResourceLocations("file:D:/素材/gd/");
     }
 }

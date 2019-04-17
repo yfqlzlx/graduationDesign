@@ -2,6 +2,7 @@ package org.yf.manage.service;
 
 import org.yf.common.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.yf.common.entity.GoodsVo;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
 
@@ -19,10 +20,10 @@ public interface IGoodsService extends IService<Goods> {
 
     /**
      * 添加商品
-     * @param goods 待添加商品
+     * @param vo 待添加商品信息(参数+图片地址)
      * @return 是否成功
      */
-    boolean addGoods(Goods goods);
+    boolean addGoods(GoodsVo vo) throws Exception;
 
     /**
      * 获取分页后的商品

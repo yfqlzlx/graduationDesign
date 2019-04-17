@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/common/header.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <style>
+        .item-top-div{
+            width: 100%;
+            height: 350px;
+        }
+        .item-top-div img{
+            width: 100%;
+            height: 100%;
+        }
+        .item-main-container{
+            margin-top: 20px;
+            width: 100%;
+            height: 410px;
+        }
+        .item-img-box{
+            width: 30%;
+            height: 100%;
+            float: left;
+        }
+        .main-img{
+            width: 100%;
+            height: 350px;
+        }
+        .main-img img{
+            width: 100%;
+            height: 100%
+        }
+        .sub-img-div{
+            width: 100%;
+            height: 50px;
+        }
+        .sub-img-item{
+            margin-top: 10px;
+            width: 16%;
+            height: 100%;
+            margin-left: 3%;
+            float: left;
+        }
+        .sub-img-item img{
+            width: 100%;
+            height: 100%;
+        }
+        .item-goods-info-div{
+            width: 50%;
+            height: 100%;
+            float: left;
+            padding-left: 30px;
+        }
+        .item-title{
+            width:100%;
+            height: 40px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #3C3C3C;
+            font-weight: 700;
+        }
+        .item-desc{
+            width: 100%;
+            height: 40px;
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .item-price{
+            background-color: #FFF2E8;
+            width: 100%;
+            height: 50px;
+        }
+        .price-span-lab{
+            line-height: 40px;
+            padding-left: 10px;
+        }
+        .price-span{
+            line-height: 40px;
+            color: #f40;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .dispatching{
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            margin-top: 10px;
+        }
+        .item-count{
+            margin-top: 10px;
+            width: 100%;
+            height: 26px;
+        }
+        .symbol{
+            width: 26px;
+            height: 24px;
+            text-align: center;
+            line-height: 20px;
+            float: left;
+            font-weight: 900;
+            background-color: #ededed;
+            border: 1px solid #ccc;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .num-div{
+            width: 40px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            float: left;
+        }
+        .num-div input{
+            width: 100%;
+            height: 24px;
+            border: 1px solid #CCC;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="layui-container">
+<!-- header -->
+<div class="layui-row header" style="height: 40px;width: 100%">
+    <div class="layui-col-md4">
+        <span class="header-logo" onclick="window.location.href='/index.html'">零一购物商城</span>
+    </div>
+    <div class="layui-col-md2">
+        <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-cart-plus" aria-hidden="true"></i>购物车</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-star" aria-hidden="true"></i>收藏</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>足迹</span>
+    </div>
+</div>
+<!-- logo -->
+<div class="item-top-div">
+    <img src="/static/img/top-logo.jpg" />
+    <hr/>
+</div>
+<!-- main-container -->
+<div class="item-main-container">
+    <!-- img-box -->
+    <div class="item-img-box">
+        <div class="main-img"><img class="main-img-box" src="/static/img/testGoods.png"></div>
+        <div class="sub-img-div"></div>
+    </div>
+    <!-- goods-info -->
+    <div class="item-goods-info-div">
+        <div class="item-title"></div>
+        <div class="item-desc"></div>
+        <div class="item-price"></div>
+        <div class="dispatching"><span class="layui-col-md1">配送</span><span class="layui-col-md1">快递</span><span class="layui-col-md1">包邮</span><span class="layui-col-md3">72小时内发货</span></div>
+        <div class="item-count"><span class="layui-col-md1">数量</span><span class="layui-col-md3"><div class="symbol">-</div><div class="num-div"><input type="text" id="goodsNum" value="1"/></div><div class="symbol">+</div></span></div>
+    </div>
+</div>
+</body>
+<script>
+    var $;
+    layui.use([],function () {
+        $ = layui.jquery;
+        // 当前商品id
+        var goodsId = layui.data('goods').goodsId;
+
+        /**
+         * 初始化
+         */
+        function init() {
+            if(!goodsId){
+                layer.alert("加载商品失败，缺少参数，请重试");
+            }
+            $.ajax({
+                type: 'get'
+                ,url: '/api/goods/get/' + goodsId
+                ,async: false
+                ,contentType: "application/json;charset=UTF-8"
+                ,success:function(response){
+                    var data = response.data;
+                    console.log(data)
+                    // 添加副图片
+                    var imgs = data.imgUrls;
+                    var str = "";
+                    for(var i in imgs){
+                        str += '<div class="sub-img-item"><img class="sub-img" src="/api/goods/img/' + imgs[i] + '"/></div>'
+                    }
+                    $('.sub-img-div').html(str);
+
+                    // 添加商品信息
+                    $('.item-title').html('<span>'+  data.goods.goodsTitle +'</span>');
+                    $('.item-desc').html('<span>' + data.goods.goodsDesc + '</span>')
+                    $('.item-price').html('<span class="layui-col-md1 price-span-lab">价格</span><span class="layui-col-md4 price-span">￥ ' + data.goods.goodsPrice +'</span>')
+                    $('.item-count').append('<span>' + data.goods.goodsTally + '(库存'+ data.goods.goodsNum + data.goods.goodsTally + ')</span>');
+                }
+            })
+        }
+        init();
+
+
+        /**
+         * 绑定事件
+         */
+        $('.sub-img').mouseover(function () {
+            $('.main-img-box').attr('src',$(this).attr('src'))
+        })
+
+    })
+
+</script>
+</html>

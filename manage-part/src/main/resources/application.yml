@@ -12,6 +12,10 @@ spring:
     cache: false
     encoding: utf-8
     mode: HTML
+  # 配置文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 10MB
 # 日志级别
 logging:
   level:
