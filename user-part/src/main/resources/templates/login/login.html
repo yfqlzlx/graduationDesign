@@ -54,7 +54,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-block" style="width: 200px">
-                <input type="password" name="vaildCode" placeholder="请输入验证码" autocomplete="off" class="layui-input" lay-verify="required">
+                <input type="text" name="vaildCode" placeholder="请输入验证码" autocomplete="off" class="layui-input" lay-verify="required">
             </div>
         </div>
         <div class="layui-form-item">
@@ -69,12 +69,13 @@
 </body>
 
 <script>
-    var $,element,form;
+    let $,element,form;
     //JavaScript代码区域
     layui.use(['element','jquery','form'], function(){
         element = layui.element;
         $ = layui.$;
         form = layui.form;
+
 
         /**
          * 登录
@@ -89,10 +90,28 @@
                     if(response.code === 405){
                         layer.alert("账号或密码错误");
                     }else if(response.code === 200){
-                        console.log("登录成功");
+                        let id = response.data;
+                        let user = data.field;
+                        user.id = id;
                         // 保存登录信息
-                        layui.data('userStore',data.field)
-                        window.location.href = '../index.html'
+                        layui.sessionData('userStore',{
+                           key: 'user'
+                           ,value: user
+                        });
+                        // 判断之前有无网址
+                        let uri = layui.sessionData('urls').uri;
+                        layer.msg("登录uri:" + uri)
+                        if(uri){
+                            console.log("跳转到uri:" + uri)
+                            layui.sessionData('urls',{
+                                key: 'uri'
+                                ,remove: true
+                            });
+                            window.location.href = uri;
+                        }else{
+                            window.location.href = '../index.html'
+                            console.log("跳转到主页")
+                        }
                     }else if(response.code === 406){
                         layer.alert("验证码错误");
                     }else{
@@ -126,7 +145,6 @@
          * 注册
          */
         form.on('submit(registBtn)',function (data) {
-            console.log(data.field);
             $.ajax({
                 type: 'POST'
                 ,url: '/api/user/registry'
@@ -155,7 +173,6 @@
          *  刷新验证码
          */
         $('#vaild-src').click(function () {
-            console.log('切换src');
             $(this).attr('src','/api/user/validImg');
         });
 

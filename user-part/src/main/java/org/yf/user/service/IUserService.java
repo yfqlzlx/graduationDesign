@@ -34,5 +34,5 @@ public interface IUserService extends IService<User> {
      * @param user 用户
      * @return response
      */
-    boolean login(User user);
+    User login(User user);
 }

@@ -18,16 +18,16 @@
             <span class="header-logo" onclick="window.location.href='/index.html'">零一购物商城</span>
         </div>
         <div class="layui-col-md2">
-            <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</span>
+            <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"> </i>消息</span>
         </div>
         <div class="layui-col-md2">
-            <span><i class="fa fa-cart-plus" aria-hidden="true"></i>购物车</span>
+            <span><i class="fa fa-cart-plus" aria-hidden="true"> </i>购物车</span>
         </div>
         <div class="layui-col-md2">
-            <span><i class="fa fa-star" aria-hidden="true"></i>收藏</span>
+            <span><i class="fa fa-star" aria-hidden="true"> </i>收藏</span>
         </div>
         <div class="layui-col-md2">
-            <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>足迹</span>
+            <span><i class="fa fa-calendar-check-o" aria-hidden="true"> </i>足迹</span>
         </div>
     </div>
 
@@ -68,6 +68,7 @@
                 <div><img src="/static/img/carousel4.jpg" /></div>
             </div>
         </div>
+        <div class="container-right-div"><img src="/static/img/right_bgi.png"/> </div>
     </div>
 
 </body>
@@ -110,7 +111,6 @@
             $.ajax({
                 type: 'get'
                 ,url: '/api/goodsType/group'
-                ,async: false
                 ,contentType: "application/json;charset=UTF-8"
                 ,success: function(response){
                     var str = "";
@@ -118,13 +118,13 @@
                     $.each(data,function(key,value){
                         str += '<ul class="menu-ul layui-row" onmouseover="showInfo(' + key+')" onmouseout="hideInfo()">';
                         for(var i in value){
-                            if(i === 0){
+                            if(Number(i) === 0){
                                 str += '<li class="layui-col-md3 layui-col-md-offset1">' + value[i].typeName + '</li>';
                             }else{
                                 str += '<li class="layui-col-md3">' + value[i].typeName + '</li>';
                             }
                         }
-                        str += '<i class="layui-col-md1 layui-col-md-offset1 fa fa-chevron-right" aria-hidden="true" style="float: right"></i>'
+                        str += '<img src="/static/img/arrow.png" />'
                         str += '</ul>'
                     });
                     $('#left-menu').html(str);
@@ -147,7 +147,6 @@
         $.ajax({
             type: 'get'
             ,url: '/api/goodsType/info/' + key
-            ,async: false
             ,contentType: "application/json;charset=UTF-8"
             ,success: function (response) {
                 var str = "";
@@ -190,7 +189,7 @@
      * @param typeId
      */
     function jump(typeId){
-        layui.data('goods',{
+        layui.sessionData('goods',{
             key: 'typeId'
             ,value: typeId
         });

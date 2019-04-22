@@ -106,7 +106,7 @@
         $ = layui.jquery;
         var laypage = layui.laypage;
         // 获得商品分类id
-        var key = layui.data('goods').typeId;
+        var key = layui.sessionData('goods').typeId;
 
 
 
@@ -119,7 +119,6 @@
             $.ajax({
                 type: 'get'
                 ,url: '/api/goods/all/' + key
-                ,async: false
                 ,contentType: "application/json;charset=UTF-8"
                 ,data: {
                     pageNo: 1
@@ -167,7 +166,7 @@
          */
         $('.goods-div').click(function(){
             var goodsId = $(this).attr('id');
-            layui.data('goods',{
+            layui.sessionData('goods',{
                 key: 'goodsId'
                 ,value: goodsId
             });

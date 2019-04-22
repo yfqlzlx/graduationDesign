@@ -59,10 +59,11 @@ public class UserController {
             return new Response(406,"验证码错误");
         }
         User user = new User().setUsername(vo.getUsername()).setPassword(vo.getPassword());
-        if(userService.login(user)){
+        User dbUser = userService.login(user);
+        if(dbUser != null){
             // 保存登录信息
-            request.getSession().setAttribute("userStore",user);
-            return new Response(200);
+            request.getSession().setAttribute("userStore",dbUser);
+            return new Response(200,dbUser.getId());
         }
         return new Response(405);
     }

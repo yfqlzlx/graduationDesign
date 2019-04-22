@@ -46,17 +46,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean login(User user) {
+    public User login(User user) {
         User dbUser = userMapper.selectOne(new QueryWrapper<User>().eq("username", user.getUsername()));
         if(dbUser == null){
-            return false;
+            return null;
         }
         // 加密输入的密码
         String encodePassword = encodeString(user.getPassword());
         if(dbUser.getPassword().equals(encodePassword)){
-            return true;
+            return dbUser;
         }
-        return false;
+        return null;
     }
 
     /**

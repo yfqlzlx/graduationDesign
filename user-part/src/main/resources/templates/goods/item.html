@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/common/header.css">
     <script src="/static/layui/layui.all.js"></script>
+    <script src="/static/js/common.js"></script>
     <style>
         .item-top-div{
             width: 100%;
-            height: 350px;
+            height: 280px;
         }
         .item-top-div img{
             width: 100%;
@@ -66,7 +67,7 @@
         .item-desc{
             width: 100%;
             height: 40px;
-            margin-top: 10px;
+            margin-top: 20px;
             font-size: 14px;
             font-weight: 400;
         }
@@ -89,10 +90,10 @@
             width: 100%;
             height: 20px;
             line-height: 20px;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .item-count{
-            margin-top: 10px;
+            margin-top: 20px;
             width: 100%;
             height: 26px;
         }
@@ -120,6 +121,82 @@
             height: 24px;
             border: 1px solid #CCC;
             text-align: center;
+        }
+        .btn-div{
+            width: 100%;
+            height: 30px;
+            margin-top: 30px;
+        }
+        .buy-bth{
+            width: 146px;
+            height: 40px;
+            background-color: #FFE4D0;
+            color: #E5511D;
+            font-size:16px;
+            line-height:38px;
+            text-align: center;
+            border: 1px #F0CAB6 solid;
+            float: left;
+        }
+        .add-btn{
+            width: 175px;
+            height: 40px;
+            line-height:38px;
+            text-align: center;
+            float: left;
+            border: 1px #F40 solid;
+            color: #FFF;
+            background-color: #F40;
+            font-size:16px;
+            margin-left: 20px;
+        }
+        .add-btn:hover{
+            background-color: #F22D00;
+        }
+        .buy-bth:hover{
+            background-color: #FFD9BC;
+        }
+        .guess-div{
+            width: 100%;
+            height: 400px;
+            margin-top: 10px;
+        }
+        .guess-div span{
+            color:#3694ee;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .other-goods-div{
+            width: 80%;
+            height: 100%;
+        }
+        .goods-div{
+            width: 16%;
+            height: 200px;
+            border: 1px  solid #edeec5;
+            margin-left: 3%;
+            float: left;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .goods-div img{
+            width:100%;
+            height: 160px;
+        }
+        .price-div{
+            width: 100%;
+            height: 20px;
+            color: #F40;
+            cursor: pointer;
+        }
+        .desc-div{
+            width: 100%;
+            height: 20px;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            overflow: hidden;
+            word-break:keep-all;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -160,16 +237,48 @@
         <div class="item-desc"></div>
         <div class="item-price"></div>
         <div class="dispatching"><span class="layui-col-md1">配送</span><span class="layui-col-md1">快递</span><span class="layui-col-md1">包邮</span><span class="layui-col-md3">72小时内发货</span></div>
-        <div class="item-count"><span class="layui-col-md1">数量</span><span class="layui-col-md3"><div class="symbol">-</div><div class="num-div"><input type="text" id="goodsNum" value="1"/></div><div class="symbol">+</div></span></div>
+        <div class="item-count"><span class="layui-col-md1">数量</span><span class="layui-col-md3"><div class="symbol" id="sub-btn">-</div><div class="num-div"><input type="text" id="goodsNum" value="1" oninput = "value=value.replace(/[^\d]/g,'')"/></div><div class="symbol" id="add-btn">+</div></span></div>
+        <div class="btn-div"><button class="buy-bth">立即购买</button><button class="add-btn"><i style="margin-right: 5px;" class="fa fa-cart-plus" aria-hidden="true"></i>加入购物车</button></div>
+    </div>
+</div>
+<hr/>
+<div class="guess-div">
+    <span>猜你喜欢</span>
+    <div class="other-goods-div">
+        <div class="goods-div">
+            <img src="/static/img/testGoods.png"/>
+            <div class="price-div">￥  998</div>
+            <div class="desc-div" title=""></div>
+        </div>
+        <div class="goods-div">
+            <img src="/static/img/testGoods.png"/>
+            <div class="price-div">￥  998</div>
+            <div class="desc-div" title=""></div>
+        </div>
+        <div class="goods-div">
+            <img src="/static/img/testGoods.png"/>
+            <div class="price-div">￥  998</div>
+            <div class="desc-div" title=""></div>
+        </div>
+        <div class="goods-div">
+            <img src="/static/img/testGoods.png"/>
+            <div class="price-div">￥  998</div>
+            <div class="desc-div" title=""></div>
+        </div>
+        <div class="goods-div">
+            <img src="/static/img/testGoods.png"/>
+            <div class="price-div">￥  998</div>
+            <div class="desc-div" title=""></div>
+        </div>
     </div>
 </div>
 </body>
 <script>
-    var $;
+    var $, goodsLimit;
     layui.use([],function () {
         $ = layui.jquery;
         // 当前商品id
-        var goodsId = layui.data('goods').goodsId;
+        var goodsId = layui.sessionData('goods').goodsId;
 
         /**
          * 初始化
@@ -181,15 +290,15 @@
             $.ajax({
                 type: 'get'
                 ,url: '/api/goods/get/' + goodsId
-                ,async: false
                 ,contentType: "application/json;charset=UTF-8"
                 ,success:function(response){
-                    var data = response.data;
-                    console.log(data)
+                    let data = response.data;
+                    goodsLimit = data.goods.goodsNum;
+                    console.log(data);
                     // 添加副图片
-                    var imgs = data.imgUrls;
-                    var str = "";
-                    for(var i in imgs){
+                    let imgs = data.imgUrls;
+                    let str = "";
+                    for(let i in imgs){
                         str += '<div class="sub-img-item"><img class="sub-img" src="/api/goods/img/' + imgs[i] + '"/></div>'
                     }
                     $('.sub-img-div').html(str);
@@ -199,6 +308,12 @@
                     $('.item-desc').html('<span>' + data.goods.goodsDesc + '</span>')
                     $('.item-price').html('<span class="layui-col-md1 price-span-lab">价格</span><span class="layui-col-md4 price-span">￥ ' + data.goods.goodsPrice +'</span>')
                     $('.item-count').append('<span>' + data.goods.goodsTally + '(库存'+ data.goods.goodsNum + data.goods.goodsTally + ')</span>');
+
+                    // 保存商品信息
+                    layui.sessionData('goods',{
+                        key: 'currentGoods'
+                        ,value: data
+                    })
                 }
             })
         }
@@ -212,6 +327,66 @@
             $('.main-img-box').attr('src',$(this).attr('src'))
         })
 
+        /**
+         * 商品+1
+         */
+        $('#add-btn').click(function () {
+            var ipt = $('#goodsNum');
+            if(Number(ipt.val()) < Number(goodsLimit)){
+                ipt.val(Number(ipt.val()) + 1);
+            }
+        });
+
+        /**
+         * 商品-1
+         */
+        $('#sub-btn').click(function () {
+            var ipt = $('#goodsNum');
+            if(Number(ipt.val()) > 1){
+                ipt.val(Number(ipt.val()) - 1);
+            }
+        });
+
+        /**
+         * 监听文本变化
+         */
+        $('#goodsNum').change(function () {
+            /* 782883321 */
+            var ipt = $('#goodsNum');
+            var curr = Number(ipt.val())
+            if(curr < 1){
+                ipt.val(1);
+                layer.msg("非法数量，已切换到最小购买数")
+            }
+            if(curr > Number(goodsLimit)){
+                ipt.val(goodsLimit)
+                layer.msg("非法数量，已切换到最大购买数")
+            }
+        });
+
+        /**
+         * 点击购买
+         */
+        $('.buy-bth').click(function () {
+            var ipt = $('#goodsNum');
+            var curr = Number(ipt.val());
+            if(curr < 1 || curr > Number(goodsLimit)){
+                layer.msg("非法数量，请确定购买数量是否有误");
+                return;
+            }
+            // 判断是否登录
+            if(isSignin()){
+                // 保存购买数
+                layui.sessionData('goodsNum',{
+                    key: 'goodsNum'
+                    ,value: curr
+                })
+                window.location.href = '/order/add.html'
+            }else{
+                // 没有登录，保存当前路径
+                toLogin();
+            }
+        })
     })
 
 </script>

@@ -1,9 +1,12 @@
+html{
+    background-color: #f4f4f4;
+}
 body{
     font-family: "Microsoft YaHei UI",serif;
 }
 .header-logo{
     font-weight: 400;
-    font-size: 28px;
+    font-size: 25px;
 }
 .header{
     background-color: #F5F5F5;
@@ -12,4 +15,10 @@ body{
     cursor: pointer;
     line-height: 40px;
     margin-left: 20px;
+}
+.header span:hover{
+    color:#ff8f20;
+}
+.header i{
+    margin-right: 8px;
 }

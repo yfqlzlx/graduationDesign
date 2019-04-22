@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户下单</title>
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/common/header.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
+    <script src="/static/js/common.js"></script>
+    <script src="/static/layui/layui.all.js"></script>
+    <style>
+        .address-div{
+            width: 100%;
+            min-height: 300px;
+            margin-top: 10px;
+        }
+        .address-div span{
+            color: #3694ee;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .address-container{
+            width: 100%;
+            /*height: 400px;*/
+            min-height: 200px;
+            /*border:1px red solid;*/
+        }
+        .address-box{
+            padding-left: 5px;
+            width:16%;
+            height: 180px;
+            border: 1px #a0999c dashed;
+            float: left;
+            margin-right: 3%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .address-selected{
+            border: 1px #f63133 dashed;
+        }
+        .address-name{
+            margin-top: 5px;
+            font-size:18px;
+            font-weight: bold;
+        }
+        .address-phone{
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .address-info{
+            border-top: 1px solid #b8b1b4;
+            margin-top: 5px;
+            padding-top: 5px;
+            height: 80px;
+        }
+        .address-add{
+            cursor: pointer;
+            font-size: 90px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .address-lab{
+            cursor: pointer;
+            text-align: center;
+        }
+        .address-lab:hover{
+            color: #f6873a;
+        }
+        .address-btn{
+            margin-bottom: 5px;
+        }
+        .address-edit{
+            float: right;
+            margin-right: 10px;
+        }
+        .address-del{
+            float: right;
+            margin-right: 15px;
+        }
+        .address-edit:hover{
+            color: #f65539;
+        }
+        .address-del:hover{
+            color: #f65539;
+        }
+        .goods-info-div span{
+            color: #3694ee;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .goods-div{
+            width: 100%;
+            height: 200px;
+            margin-top: 10px;
+        }
+        .img-item{
+            height: 100px;
+            width: 80px;
+            margin-right: 10px;
+            float: left;
+        }
+        .img-item img{
+            width: 100%;
+            height: 100%;
+        }
+        .interval{
+            margin-top: 20px;
+        }
+        .goods-title{
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn-div{
+            padding-left: 320px;
+        }
+        .btn-check{
+            width: 180px;
+            height: 40px;
+            background-color: #f6a11f;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            line-height: 40px;
+            border: 1px #f6a11f solid;
+        }
+        .btn-cancel{
+            width: 180px;
+            height: 40px;
+            background-color: #cbc4c4;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            line-height: 40px;
+            border: 1px #cbc4c4 solid;
+            margin-left: 50px;
+        }
+        .btn-check:hover{
+            color: #0C0C0C;
+            background-color: #ff8b2b;
+        }
+        .btn-cancel:hover{
+            color: #0C0C0C;
+            background-color: #a9a39e;
+        }
+    </style>
+</head>
+<body class="layui-container">
+<!-- header -->
+<div class="layui-row header" style="height: 40px;width: 100%">
+    <div class="layui-col-md4">
+        <span class="header-logo" onclick="window.location.href='/index.html'">零一购物商城</span>
+    </div>
+    <div class="layui-col-md2">
+        <span style="align-content: center"><i class="fa fa-commenting-o" aria-hidden="true"></i>消息</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-cart-plus" aria-hidden="true"></i>购物车</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-star" aria-hidden="true"></i>收藏</span>
+    </div>
+    <div class="layui-col-md2">
+        <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i>足迹</span>
+    </div>
+</div>
+<hr/>
+<!-- address -->
+<div class="address-div">
+    <span>收货地址管理></span>
+    <div class="address-container" id="address-container">
+    </div>
+</div>
+<hr/>
+<!-- goods-info -->
+<div class="goods-info-div">
+    <span>商品信息></span>
+    <div class="goods-div">
+        <div class="layui-row interval">
+            <div class="layui-col-md1 goods-title">商品名：</div>
+            <div class="layui-col-md3" id="goodsName">男装1</div>
+        </div>
+        <div class="layui-row interval ">
+            <div class="layui-col-md1 goods-title">商品缩略图：</div>
+            <div class="layui-col-md10" id="goodsImg"></div>
+        </div>
+        <div class="layui-row interval">
+            <div class="layui-col-md1 goods-title">单价：</div>
+            <div class="layui-col-md3" id="goodsPrice">￥1222</div>
+        </div>
+        <div class="layui-row interval">
+            <div class="layui-col-md1 goods-title">购入数：</div>
+            <div class="layui-col-md3" id="goodsCount">2</div>
+        </div>
+        <div class="layui-row interval">
+            <div class="layui-col-md1 goods-title">总价：</div>
+            <div class="layui-col-md3" id="allPrice">￥2444</div>
+        </div>
+        <hr/>
+        <div>
+            <div class="layui-row interval">
+                <div class="layui-col-md1 goods-title">留言：</div>
+                <div class="layui-col-md11"><textarea class="layui-textarea" id="leaveMsg" style="width: 100%"></textarea></div>
+            </div>
+        </div>
+        <hr/>
+        <div class="interval btn-div"><button class="btn-check">提交订单</button><button class="btn-cancel">再看看</button></div>
+    </div>
+</div>
+<!-- footer -->
+
+</body>
+<script>
+    var $;
+
+    layui.use(['jquery','form'],function () {
+        $ = layui.jquery;
+        let form = layui.form;
+
+
+        /**
+         * 初始化
+         */
+        function init() {
+            // 判断用户是否登录
+            if(!isSignin()){
+                toLogin();
+                return;
+            }
+            // 初始化地址
+            addressRender();
+            // 初始化商品信息
+            let goodsNum = layui.sessionData('goodsNum').goodsNum;
+            let data = layui.sessionData('goods').currentGoods;
+            console.log(data);
+            $('#goodsName').html(data.goods.goodsName);
+            $('#goodsPrice').html(data.goods.goodsPrice);
+            $('#goodsCount').html(goodsNum);
+            $('#allPrice').html(Number(goodsNum) * Number(data.goods.goodsPrice));
+            let str = "";
+            let imgs = data.imgUrls;
+            for(let i in imgs){
+                str += '<div class="img-item"><img src="/api/goods/img/' + imgs[i] + '"/></div>'
+            }
+            $('#goodsImg').html(str)
+        }
+        init();
+
+        /**
+         * 添加地址
+         */
+        form.on('submit(add-address)',function (data) {
+            console.log(data.field);
+            $.ajax({
+                type: 'POST'
+                ,url: '/api/address/add'
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(data.field)
+                ,success: function(response){
+                    if(response.code === 200){
+                        layer.closeAll();
+                        $('#reset-btn').click();
+                        layer.alert("添加地址成功");
+                        // 再次请求最新的地址
+                        addressRender();
+                    }
+                }
+            });
+            return false;
+        });
+
+        /**
+         * 提交订单
+         */
+        $('.btn-check').click(function () {
+            // 判断是否登录
+            if(!isSignin()){
+                toLogin();
+                return;
+            }
+            let goods = layui.sessionData('goods').goods;
+            // 组装参数
+            let param = {};
+            let address = getSelectedAddress();
+            console.log(address);
+            param.goodsId = goods.goodsId;
+            param.goodsName = goods.goodsName;
+            param.goodsNum = layui.sessionData('goodsNum').goodsNum;
+            param.goodsPrice = goods.goodsPrice;
+            param.addressId = address.addressId;
+            param.addressName = address.addressName;
+            param.userId = getUserId();
+            param.userName = getUserName();
+            param.leaveMsg = $('#leaveMsg').val();
+
+            // 提交
+            $.ajax({
+                type: 'POST'
+                ,url: '/api/order/add'
+                ,contentType: "application/json;charset=UTF-8"
+                ,data: JSON.stringify(param)
+                ,success:function(response){
+                    layer.msg("添加成功");
+                }
+                ,error: function () {
+                    layer.msg("提交失败，请重试");
+                }
+            })
+        })
+    });
+
+    window.onload = function (){
+        /**
+         * 打开添加新地址窗口
+         */
+        $('#add-addredd-box').click(function () {
+            layer.open({
+                type: 1
+                ,title: '添加地址'
+                ,area: ['450px,500px']
+                ,resize: false
+                ,content: $('#add-address-div')
+                ,closeBtn: 0 //不显示右上角的关闭
+                ,success:function () {
+                    $('#userId').val(getUserId());
+                }
+            })
+        });
+
+        /**
+         * 关闭弹窗
+         */
+        $('#reset-btn').click(function () {
+            layer.closeAll();
+        });
+
+        /**
+         * 地址选取的边框效果
+         */
+        $(".address-box").click(function(){
+            let item = $(this);
+            if(item.attr('id') === "add-addredd-box"){
+                // 如果是添加按钮，就不操作
+                return ;
+            }
+            // 其他按钮，先取消选中的，再选中当前对象
+            let selected = $('.address-selected');
+            if(selected){
+                selected.removeClass("address-selected")
+            }
+            item.addClass("address-selected");
+        })
+    };
+
+    /**
+     * 删除地址
+     * @param id
+     */
+    function delAddress(id){
+        layer.confirm("是否删除地址",function () {
+            $.ajax({
+                type: 'DELETE'
+                ,url: '/api/address/del/' + id
+                ,contentType: "application/json;charset=UTF-8"
+                ,success:function(response){
+                    layer.closeAll();
+                    layer.msg("删除成功");
+                    addressRender();
+                }
+                ,error:function () {
+                    layer.closeAll();
+                    layer.msg("删除失败，请重试");
+                }
+            })
+        })
+    }
+
+    /**
+     *  重新渲染地址div
+     */
+    function addressRender(){
+        $.ajax({
+            type: 'GET'
+            ,url: '/api/address/all/' + getUserId()
+            ,contentType: "application/json;charset=UTF-8"
+            ,success:function(response){
+                let data = response.data;
+                let str = "";
+                for(let i in data){
+                    if(Number(i) === 0){
+                        str += addAddress(data[i],true);
+                    }else{
+                        str += addAddress(data[i],false);
+                    }
+
+                }
+                // 添加添加地址div
+                str += addDefault();
+                $('#address-container').html(str);
+            }
+            ,error:function () {
+                layer.msg("加载地址失败，请刷新重试");
+            }
+        })
+    }
+
+
+    /**
+     * 添加地址显示的html
+     * @param address json对象
+     * @param isFirst 是否是第一个元素
+     * @returns {string} 拼接后的html
+     */
+    function addAddress (address,isFirst){
+        let str = "";
+        if(isFirst){
+            str += '<div class="address-box address-selected">';
+        }else{
+            str += '<div class="address-box">';
+        }
+        str += '<input type="hidden" value="' + address.id + '"/>'
+        str += '<div class="address-name">' +address.userName + '</div>';
+        str += '<div class="address-phone">' + address.phone + '</div>';
+        str += '<div class="address-info">' + address.addressName + '</div>';
+        str += '<div class="address-btn"><i class="fa fa-trash address-edit" aria-hidden="true"  onclick="delAddress('+ address.id + ')"></i><i style="float: right;margin-right: 15px;" class="fa fa-pencil-square-o address-del" aria-hidden="true"></i></div>'
+        str += '</div>';
+        return str;
+    }
+
+    /**
+     * 添加默认的按钮
+     */
+    function addDefault() {
+        let str = "";
+        str += '<div>';
+        str += '<div class="address-box" id="add-addredd-box">'
+        str += '<div class="address-add">+</div>';
+        str += '<div class="address-lab">添加地址</div>';
+        str += '</div>';
+        return str;
+    }
+
+    /**
+     * 获得选中的地址
+     * @returns 选中的地址
+     */
+    function getSelectedAddress() {
+        let selected = $('.address-selected')
+        let address = {};
+        address.addressId = selected.firstChild.val();
+        address.addressName = selected.children().eq(4).html();
+        return address
+    }
+</script>
+</html>
+<div id="add-address-div" style="display: none">
+    <form class="layui-form" lay-filter="add-address-form">
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-inline">
+                <label class="layui-form-label">收货人</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="userName" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-inline">
+                <label class="layui-form-label">联系方式</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <input type="text" name="phone" autocomplete="off" class="layui-input" lay-verify="required">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-inline">
+                <label class="layui-form-label">收货地址</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                    <textarea type="text" name="addressName" autocomplete="off" class="layui-textarea" lay-verify="required"></textarea>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="userId" id="userId">
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit  lay-filter="add-address">添加</button>
+                <button type="reset" class="layui-btn layui-btn-primary" id="reset-btn">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
