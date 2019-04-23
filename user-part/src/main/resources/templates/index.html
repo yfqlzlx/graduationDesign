@@ -6,10 +6,88 @@
     <title>首页</title>
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <link rel="stylesheet" href="/static/css/common/header.css">
+    <link rel="stylesheet" href="/static/css/common/footer.css">
     <link rel="stylesheet" href="/static/css/common/search.css">
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <script src="/static/layui/layui.all.js"></script>
+    <style>
+        .module-div{
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+            background-color: #f4f4f4;
+        }
+        .module1-div{
+            width: 49%;
+            height: 290px;
+            background-color: white;
+            float: left;
+        }
+        .module2-div{
+            margin-left: 2%;
+            width: 49%;
+            height: 290px;
+            background-color: white;
+            float: left;
+        }
+        .module-header{
+            height: 50px;
+            padding-top: 18px;
+            padding-left: 15px;
+            width: 100%;
+        }
+        .module-header img{
+            float: left;
+            width: 74px;
+            height: 24px;
+        }
+        .module-header-title{
+            width: 130px;
+            height: 30px;
+            line-height: 25px;
+            color: #999;
+            font-weight: 400;
+            padding-left: 5px;
+            float: left;
+        }
+        .module-header-sub{
+            width: 50px;
+            height: 30px;
+            line-height: 25px;
+            color: #999;
+            font-weight: 400;
+            float: right;
+            padding-right: 25px;
+        }
+        .module-goods{
+            width:30%;
+            height: 160px;
+            float: left;
+        }
+        .module-goods img{
+            width: 100%;
+            height: 100%;
+        }
+        .fisrt-goods{
+            margin-left: 3%;
+        }
+        .other-goods{
+            margin-left: 1%;
+        }
+        .module-desc{
+            width: 100%;
+            height: 50px;
+            font-size: 16px;
+            font-weight: normal;
+            text-overflow: ellipsis;
+            white-space:normal;
+            overflow: hidden;
+            word-break:keep-all;
+            word-wrap:break-word;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body class="layui-container">
     <!-- header -->
@@ -70,10 +148,61 @@
         </div>
         <div class="container-right-div"><img src="/static/img/right_bgi.png"/> </div>
     </div>
-
+    <!-- other goods -->
+    <div class="module-div">
+        <div class="module1-div">
+            <div class="module-header">
+                <img src="/static/img/good-goods.png">
+                <div class="module-header-title">与品质生活不期而遇</div>
+                <div class="module-header-sub">换一换</div>
+            </div>
+            <div class="module-container">
+                <div class="module-goods fisrt-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc"><h4>新款xxxxxxxx</h4></div>
+                </div>
+                <div class="module-goods other-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc">限量版绿色xxxxxxxx</div>
+                </div>
+                <div class="module-goods other-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc">网红爆款xxxxxxxxxxxxstys</div>
+                </div>
+            </div>
+        </div>
+        <div class="module2-div">
+            <div class="module-header">
+                <img src="/static/img/love-shpping.png">
+                <div class="module-header-title">献给聪明可爱的你</div>
+                <div class="module-header-sub">更多></div>
+            </div>
+            <div class="module-container">
+                <div class="module-goods fisrt-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc"><h4>潮牌衬衫</h4></div>
+                </div>
+                <div class="module-goods other-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc">新鲜泰国山竹</div>
+                </div>
+                <div class="module-goods other-goods">
+                    <img src="/static/img/testGoods.png"/>
+                    <div class="module-desc">天王表 天猫联名款</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer -->
+    <div class="footer">
+        <div class="layui-col-md2 layui-col-md-offset1 footer-name">零一购物商城</div>
+        <div class="layui-col-md3 address">四川省成都市双流航空港学府路一段</div>
+        <div class="layui-col-md3 phone">全国客服：028-12345678</div>
+        <div class="layui-col-md2 info">©2019-2020</div>
+    </div>
 </body>
 <script>
-    var form,$;
+    var form,$,key;
     layui.use(['element','jquery','form','carousel'], function() {
         var element = layui.element;
         $ = layui.$;
@@ -113,16 +242,16 @@
                 ,url: '/api/goodsType/group'
                 ,contentType: "application/json;charset=UTF-8"
                 ,success: function(response){
-                    var str = "";
-                    var data = response.data;
+                    let str = "";
+                    let data = response.data;
                     $.each(data,function(key,value){
                         str += '<ul class="menu-ul layui-row" onmouseover="showInfo(' + key+')" onmouseout="hideInfo()">';
-                        for(var i in value){
+                        for(let i in value){
                             if(Number(i) === 0){
-                                str += '<li class="layui-col-md3 layui-col-md-offset1">' + value[i].typeName + '</li>';
-                            }else{
-                                str += '<li class="layui-col-md3">' + value[i].typeName + '</li>';
+                                str += '<div>'+ value[i].typeName +'</div>'
+                                continue;
                             }
+                            str += '<div>/</div><div>' + value[i].typeName + '</div>'
                         }
                         str += '<img src="/static/img/arrow.png" />'
                         str += '</ul>'
@@ -143,16 +272,22 @@
      * 显示商品信息
      * @param key
      */
-    function showInfo(key) {
+    function showInfo(tyepKey) {
+        let cacheStr = getGoodsInfo(tyepKey);
+        if(cacheStr){
+            $('#info-div').html(cacheStr);
+        }
+        $('#info-div').css('z-index','999')
         $.ajax({
             type: 'get'
-            ,url: '/api/goodsType/info/' + key
+            ,url: '/api/goodsType/info/' + tyepKey
             ,contentType: "application/json;charset=UTF-8"
             ,success: function (response) {
                 var str = "";
                 var data = response.data;
                 $.each(data,function(key,value){
-                    str += '<span class="info-head">' + key + '</span>';
+                    str += '<div class="info-head">' + key + '</div>';
+                    str += '<hr/>'
                     str += '<div class="info-item-div">';
                     var flag = false;
                     for(var i in  value){
@@ -167,10 +302,11 @@
                             str += '</div>'
                         }
                     }
-                    str += '</div>'
+                    str += '</div>';
+                    // 保存html
+                    saveGoodsInfo(tyepKey,str);
                 });
                 $('#info-div').html(str)
-                $('#info-div').css('z-index','999')
             }
         })
     }
@@ -181,6 +317,46 @@
      */
     function hideInfo() {
         $('#info-div').css('z-index','-1');
+    }
+
+    /**
+     * 保存商品信息
+     *
+     * @param key 商品类型id
+     * @param str 商品html
+     */
+    function saveGoodsInfo (key,str) {
+        let currKey = "key_" + key
+        let oldRecord = layui.sessionData('goodsList').goodsKey;
+        if(!oldRecord){
+            // 初始化
+            let newRecord = {};
+            newRecord[currKey] = str;
+            layui.sessionData('goodsList',{
+                key: 'goodsKey'
+                ,value: newRecord
+            });
+            return;
+        }
+        if(oldRecord[currKey]){
+            return;
+        }
+        // 没有，则添加
+        oldRecord[currKey] = str;
+        layui.sessionData('goodsList',{
+            key: 'goodsKey'
+            ,value: oldRecord
+        });
+    }
+
+    /**
+     * 获取缓存的数据
+     */
+    function getGoodsInfo(keys){
+        let record = layui.sessionData('goodsList').goodsKey;
+        if(record){
+            return record["key_"+keys];
+        }
     }
 
 

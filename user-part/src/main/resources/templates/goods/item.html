@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/static/layui/css/layui.css">
     <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/css/common/header.css">
+    <link rel="stylesheet" href="/static/css/common/footer.css">
     <script src="/static/layui/layui.all.js"></script>
     <script src="/static/js/common.js"></script>
     <style>
@@ -272,6 +273,14 @@
         </div>
     </div>
 </div>
+
+<!-- footer -->
+<div class="footer">
+    <div class="layui-col-md2 layui-col-md-offset1 footer-name">零一购物商城</div>
+    <div class="layui-col-md3 address">四川省成都市双流航空港学府路一段</div>
+    <div class="layui-col-md3 phone">全国客服：028-12345678</div>
+    <div class="layui-col-md2 info">©2019-2020</div>
+</div>
 </body>
 <script>
     var $, goodsLimit;
@@ -319,13 +328,6 @@
         }
         init();
 
-
-        /**
-         * 绑定事件
-         */
-        $('.sub-img').mouseover(function () {
-            $('.main-img-box').attr('src',$(this).attr('src'))
-        })
 
         /**
          * 商品+1
@@ -381,13 +383,22 @@
                     key: 'goodsNum'
                     ,value: curr
                 })
-                window.location.href = '/order/add.html'
+                window.location.href = '/orders/add.html'
             }else{
                 // 没有登录，保存当前路径
                 toLogin();
             }
         })
-    })
+    });
+
+    window.onload = function () {
+        /**
+         * 绑定事件
+         */
+        $('.sub-img').mouseover(function () {
+            $('.main-img-box').attr('src',$(this).attr('src'))
+        })
+    }
 
 </script>
 </html>

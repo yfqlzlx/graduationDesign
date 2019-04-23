@@ -1,7 +1,7 @@
 package org.yf.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.yf.common.entity.Order;
+import org.yf.common.entity.Orders;
 
 /**
  * <p>
@@ -11,12 +11,12 @@ import org.yf.common.entity.Order;
  * @author yf
  * @since 2019-04-18
  */
-public interface IOrderService extends IService<Order> {
+public interface IOrderService extends IService<Orders> {
 
     /**
      * 添加订单
-     * @param order 订单
+     * @param orders 订单
      * @return response
      */
-    boolean addOrder(Order order);
+    boolean addOrder(Orders orders);
 }

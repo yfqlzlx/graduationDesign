@@ -2,7 +2,7 @@ package org.yf.manage.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.yf.common.entity.Order;
+import org.yf.common.entity.Orders;
 import org.yf.manage.mapper.OrderMapper;
 import org.yf.manage.service.IOrderService;
 
@@ -15,6 +15,6 @@ import org.yf.manage.service.IOrderService;
  * @since 2019-04-18
  */
 @Service
-public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implements IOrderService {
 
 }

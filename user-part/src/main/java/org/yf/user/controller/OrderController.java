@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.yf.common.entity.Order;
+import org.yf.common.entity.Orders;
 import org.yf.common.response.Response;
 import org.yf.user.service.IOrderService;
 
@@ -22,12 +22,12 @@ public class OrderController {
 
     /**
      * 添加订单
-     * @param order 订单
+     * @param orders 订单
      * @return response
      */
     @PostMapping(value = "/add")
-    public Response addOrder(@RequestBody Order order){
-        if(orderService.addOrder(order)){
+    public Response addOrder(@RequestBody Orders orders){
+        if(orderService.addOrder(orders)){
             return new Response(200);
         }
         return new Response(500);

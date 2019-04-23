@@ -19,12 +19,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Order implements Serializable {
+public class Orders implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId
-    private Integer id;
+    private int id;
 
 
     /**
@@ -55,7 +55,7 @@ public class Order implements Serializable {
     /**
      * 订单状态
      */
-    private String status;
+    private String state;
 
     /**
      * 收货地址id
