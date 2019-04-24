@@ -2,11 +2,9 @@ package org.yf.manage.service;
 
 import org.yf.common.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.yf.common.entity.GoodsVo;
+import org.yf.common.vo.GoodsVo;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
-
-import java.util.List;
 
 /**
  * <p>

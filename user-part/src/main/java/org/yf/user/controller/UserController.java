@@ -1,9 +1,8 @@
 package org.yf.user.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import org.springframework.web.bind.annotation.*;
-import org.yf.common.entity.LoginVo;
+import org.yf.common.vo.LoginVo;
 import org.yf.common.entity.User;
 import org.yf.common.response.Response;
 import org.yf.user.service.IUserService;

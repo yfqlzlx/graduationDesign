@@ -229,7 +229,7 @@
 <div class="item-main-container">
     <!-- img-box -->
     <div class="item-img-box">
-        <div class="main-img"><img class="main-img-box" src="/static/img/testGoods.png"></div>
+        <div class="main-img"><img class="main-img-box" id="main-img" src=""></div>
         <div class="sub-img-div"></div>
     </div>
     <!-- goods-info -->
@@ -306,6 +306,7 @@
                     console.log(data);
                     // 添加副图片
                     let imgs = data.imgUrls;
+                    $('#main-img').attr('src','/api/goods/img/'+imgs[0]);
                     let str = "";
                     for(let i in imgs){
                         str += '<div class="sub-img-item"><img class="sub-img" src="/api/goods/img/' + imgs[i] + '"/></div>'

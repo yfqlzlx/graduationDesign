@@ -1,4 +1,4 @@
-package org.yf.common.entity;
+package org.yf.common.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

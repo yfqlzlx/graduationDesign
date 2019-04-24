@@ -1,19 +1,15 @@
 package org.yf.manage.controller;
 
-import ch.qos.logback.core.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.yf.common.entity.Goods;
-import org.yf.common.entity.GoodsVo;
+import org.yf.common.vo.GoodsVo;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
 import org.yf.manage.service.IGoodsService;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;

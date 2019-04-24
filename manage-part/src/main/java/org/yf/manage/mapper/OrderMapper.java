@@ -1,7 +1,11 @@
 package org.yf.manage.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.yf.common.entity.Orders;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +17,6 @@ import org.yf.common.entity.Orders;
  */
 public interface OrderMapper extends BaseMapper<Orders> {
 
+
+    IPage<Orders> queryOrders(IPage page, Map<String, Object> map);
 }

@@ -9,7 +9,7 @@ import org.yf.common.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.yf.common.entity.GoodsImg;
-import org.yf.common.entity.GoodsVo;
+import org.yf.common.vo.GoodsVo;
 import org.yf.common.entity.SystemCode;
 import org.yf.common.response.PageParam;
 import org.yf.common.response.Response;
@@ -18,9 +18,6 @@ import org.yf.manage.mapper.GoodsMapper;
 import org.yf.manage.service.IGoodsService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * <p>
@@ -55,7 +52,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 //        if(insertGoods == null){
 //            throw new Exception("新增失败");
 //        }
-        System.out.println("##################ID:"+goods.getId());
         vo.getImgUrls().forEach(item-> goodsImgMapper.insert(new GoodsImg().setGoodsId(goods.getId()).setUrl(item)));
         return true;
     }

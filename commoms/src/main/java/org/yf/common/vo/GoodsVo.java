@@ -1,7 +1,8 @@
-package org.yf.common.entity;
+package org.yf.common.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.yf.common.entity.Goods;
 
 import java.util.List;
 
