@@ -70,4 +70,23 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
         return ret;
     }
+
+    @Override
+    public Response searchGoods(String goodsName, int pageNo, int pageSize) {
+        goodsMapper.searchGoods(new Page<>(pageNo,pageSize),goodsName);
+
+
+        IPage<Goods> resultPage = goodsMapper.searchGoods(new Page<>(pageNo,pageSize), goodsName);
+        List<Goods> records = resultPage.getRecords();
+        List<GoodsDto> ret = new LinkedList<>();
+        records.forEach(item->{
+            List<GoodsImg> goodsImgs = goodsImgMapper.selectList(new QueryWrapper<GoodsImg>().eq("goods_id", item.getId()).orderByAsc("id"));
+            if(goodsImgs != null && goodsImgs.size() > 0){
+                ret.add(new GoodsDto().setGoods(item).setImgUrl(goodsImgs.get(0).getUrl()));
+                return;
+            }
+            ret.add(new GoodsDto().setGoods(item));
+        });
+        return new Response(200,ret).setTotalSize(resultPage.getTotal());
+    }
 }

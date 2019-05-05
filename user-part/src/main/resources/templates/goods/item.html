@@ -247,29 +247,29 @@
     <span>猜你喜欢</span>
     <div class="other-goods-div">
         <div class="goods-div">
-            <img src="/static/img/testGoods.png"/>
-            <div class="price-div">￥  998</div>
-            <div class="desc-div" title=""></div>
+            <img src="/static/img/荔枝.jpg"/>
+            <div class="price-div">￥  65</div>
+            <div class="desc-div" title="来自原产地广西壮族自治区，新鲜美味，全国包邮">来自原产地广西壮族自治区，新鲜</div>
         </div>
         <div class="goods-div">
-            <img src="/static/img/testGoods.png"/>
-            <div class="price-div">￥  998</div>
-            <div class="desc-div" title=""></div>
+            <img src="/static/img/帐篷.jpg"/>
+            <div class="price-div">￥  1298</div>
+            <div class="desc-div" title="野外探险必备，高度防水硅脂聚合材料，结实耐磨，防风防水">野外探险必备，高度防水硅脂聚合材料</div>
         </div>
         <div class="goods-div">
-            <img src="/static/img/testGoods.png"/>
-            <div class="price-div">￥  998</div>
-            <div class="desc-div" title=""></div>
+            <img src="/static/img/游戏主机.jpg"/>
+            <div class="price-div">￥  5698</div>
+            <div class="desc-div" title="高性能吃鸡主机，I7核心搭载水冷，性能强劲">高性能吃鸡主机，I7核心搭载水冷</div>
         </div>
         <div class="goods-div">
-            <img src="/static/img/testGoods.png"/>
-            <div class="price-div">￥  998</div>
-            <div class="desc-div" title=""></div>
+            <img src="/static/img/护发素.jpg"/>
+            <div class="price-div">￥  298</div>
+            <div class="desc-div" title="韩国进口高级护发素，抚平毛躁，修复损伤">韩国进口高级护发素，抚平毛躁，修复损伤</div>
         </div>
         <div class="goods-div">
-            <img src="/static/img/testGoods.png"/>
-            <div class="price-div">￥  998</div>
-            <div class="desc-div" title=""></div>
+            <img src="/static/img/钢琴.png"/>
+            <div class="price-div">￥  113198</div>
+            <div class="desc-div" title="施坦威钢琴，钢琴中的贵族">施坦威钢琴，钢琴中的贵族</div>
         </div>
     </div>
 </div>
@@ -300,6 +300,7 @@
                 type: 'get'
                 ,url: '/api/goods/get/' + goodsId
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,success:function(response){
                     let data = response.data;
                     goodsLimit = data.goods.goodsNum;
@@ -384,7 +385,7 @@
                     key: 'goodsNum'
                     ,value: curr
                 })
-                window.location.href = '/orders/add.html'
+                window.location.href = '/order/add.html'
             }else{
                 // 没有登录，保存当前路径
                 toLogin();

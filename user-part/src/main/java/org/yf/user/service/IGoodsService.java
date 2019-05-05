@@ -5,6 +5,8 @@ import org.yf.common.entity.Goods;
 import org.yf.common.vo.GoodsDto;
 import org.yf.common.response.Response;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -29,4 +31,6 @@ public interface IGoodsService extends IService<Goods> {
      * @return response
      */
     GoodsDto getGoodsById(int goodsId);
+
+    Response searchGoods(String goodsName, int pageNo, int pageSize);
 }

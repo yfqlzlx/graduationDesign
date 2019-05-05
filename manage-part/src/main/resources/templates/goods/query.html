@@ -86,13 +86,15 @@
                 type: 'get'
                 ,url: '/api/goodsType/first'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,success: function(response){
                     var first = response.data;
                     var str;
                     for(var i in first){
                         str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
                     }
-                    $('#first').append(str)
+                    $('#first').append(str);
+                    $('#type').html('<option value="">请选择一个类型</option>');
                     form.render();
                     console.log("初始化完成")
                 }
@@ -111,24 +113,20 @@
             console.log("一级菜单点击");
             var dest = data.value ;
             console.log("一级菜单点击:"+dest);
-            if(dest === ""){
-                $('#second').html('<option value="">请选择一个类型</option>');
-                $('#type').html('<option value="">请选择一个类型</option>');
-                form.render('select');
-                return ;
-            }
+            $('#second').html('<option value="">请选择一个类型</option>');
+            $('#type').html('<option value="">请选择一个类型</option>');
+            form.render('select');
             $.ajax({
                 method: 'get'
                 ,url: '/api/goodsType/child/' + dest
                 ,success: function (response) {
                     var data = response.data;
                     // 动态赋值
-                    // var ops = '<option value="">请选择一个类型</option>';
-                    var ops;
+                    var ops = '<option value="">请选择一个类型</option>';
                     for(var i in data){
                         ops += '<option value="'+ data[i].typeId +'">' + data[i].typeName + "</option>"
                     }
-                    $('#second').append(ops);
+                    $('#second').html(ops);
                     form.render('select');
                 }
             })
@@ -143,14 +141,15 @@
                 type: 'get'
                 ,url: '/api/goodsType/child/' + dest
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
                     var first = response.data;
-                    var str;
+                    var str = '<option value="">请选择一个类型</option>';
                     for(var i in first){
                         str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
                     }
-                    $('#type').append(str)
+                    $('#type').html(str)
                     form.render('select');
                 }
                 ,error:function(error){
@@ -199,6 +198,7 @@
                 url: '/api/goods/query'
                 ,method: 'post'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,where:{
                     param : JSON.stringify(data.field)
                 }
@@ -236,6 +236,7 @@
                         url: '/api/goods/del/' + id
                         ,method: 'delete'
                         ,contentType: "application/json;charset=UTF-8"
+                        ,async:false
                         ,success: function(){
                             tableRender();
                             layer.alert("删除成功");

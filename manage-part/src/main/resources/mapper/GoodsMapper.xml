@@ -29,6 +29,6 @@
                 and a.goods_tally = #{arg1.goodsTally}
             </if>
         </where>
-        orders by insert_time desc
+        order by insert_time desc
     </select>
 </mapper>

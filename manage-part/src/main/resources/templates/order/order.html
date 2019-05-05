@@ -73,6 +73,7 @@
                 url: '/api/order/query'
                 ,method: 'post'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,where:{
                     param : JSON.stringify(data.field)
                 }

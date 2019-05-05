@@ -1,10 +1,7 @@
 package org.yf.user.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.yf.common.response.Response;
 import org.yf.user.service.IGoodsService;
 
@@ -28,12 +25,31 @@ public class GoodsController {
      * @return response
      */
     @GetMapping(value = "/all/{goodsTypeId}")
-    public Response getPagedGoods(@PathVariable int goodsTypeId,int pageSize,int pageNo){
+    public Response getPagedGoods(@PathVariable int goodsTypeId,@RequestParam(value = "page", defaultValue = "1") int pageNo,
+                                  @RequestParam(value = "limit", defaultValue = "10") int pageSize){
         return  goodsService.getPagedGoods(pageNo,pageSize,goodsTypeId);
     }
 
+    /**
+     * 通过商品id获取商品信息
+     * @param goodsId
+     * @return
+     */
     @GetMapping(value = "/get/{goodsId}")
     public Response getGoodsById(@PathVariable int goodsId){
         return new Response(200,goodsService.getGoodsById(goodsId));
+    }
+
+    /**
+     * 模糊搜索商品
+     * @param goodsName 搜索关键字
+     * @param pageNo 当前页
+     * @param pageSize 页数大小
+     * @return response
+     */
+    @GetMapping(value = "/search")
+    public Response searchGoods(String goodsName,@RequestParam(value = "page", defaultValue = "1") int pageNo,
+                                @RequestParam(value = "limit", defaultValue = "20") int pageSize){
+        return goodsService.searchGoods(goodsName,pageNo,pageSize);
     }
 }

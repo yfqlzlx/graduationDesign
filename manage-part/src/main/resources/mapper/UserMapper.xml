@@ -21,6 +21,6 @@
                 and a.type=#{arg1.type}
             </if>
         </where>
-        orders by insert_time desc
+        order by insert_time desc
     </select>
 </mapper>

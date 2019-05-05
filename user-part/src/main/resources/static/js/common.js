@@ -10,7 +10,7 @@
  * @returns {boolean} (true/false):(已登录/ 未登录)
  */
 function isSignin(){
-    var user = layui.sessionData('userStore').user;
+    let user = layui.sessionData('userStore').user;
     return !!user;
 }
 
@@ -18,7 +18,7 @@ function isSignin(){
  * 记录当前uri，跳转到登录页面
  */
 function toLogin() {
-    var uri = window.location.pathname;
+    let uri = window.location.pathname;
     layui.sessionData('urls',{
         key: 'uri'
         ,value: uri
@@ -43,4 +43,29 @@ function getUserId(){
  */
 function getUserName() {
     return layui.sessionData('userStore').user.username;
+}
+
+/**
+ * 商品搜索
+ */
+function searchGoods(){
+    let keyWork = $('#search-input').val();
+    if(!keyWork){
+        layer.msg("请输入关键字");
+        return false;
+    }
+    // 保存关键字
+    layui.sessionData('goods',{
+        key: "keyWord",
+        value: keyWork
+    });
+
+    window.location.href = "/goods/search.html";
+}
+
+/**
+ * 获得商品搜索关键字
+ */
+function getKeyWord(){
+    return layui.sessionData('goods').keyWord;
 }

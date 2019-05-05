@@ -85,6 +85,7 @@
                 type: 'POST'
                 ,url: '/api/user/login'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
                     if(response.code === 405){
@@ -149,6 +150,7 @@
                 type: 'POST'
                 ,url: '/api/user/registry'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
                     if(response.code === 405){

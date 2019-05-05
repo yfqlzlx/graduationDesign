@@ -106,9 +106,9 @@
         ,'goods': {}
     };
     layui.use(['element','jquery','form','upload'], function(){
-        var element = layui.element;
-        var $ = layui.$;
-        var upload = layui.upload;
+        let element = layui.element;
+        let $ = layui.$;
+        let upload = layui.upload;
         form = layui.form;
 
         /**
@@ -119,10 +119,11 @@
                 type: 'get'
                 ,url: '/api/goodsType/first'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,success: function(response){
-                    var first = response.data;
-                    var str;
-                    for(var i in first){
+                    let first = response.data;
+                    let str = "";
+                    for(let i in first){
                         str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
                     }
                     $('#first').append(str)
@@ -140,7 +141,7 @@
          *  商品类型下拉监听---一级菜单
          */
          form.on('select(first)', function(data){
-             var dest = data.value ;
+             let dest = data.value ;
              if(dest === ""){
                  $('#second').html('<option value="">请选择一个类型</option>');
                  $('#type').html('<option value="">请选择一个类型</option>');
@@ -151,11 +152,11 @@
                  method: 'get'
                  ,url: '/api/goodsType/child/' + dest
                  ,success: function (response) {
-                     var data = response.data;
+                     let data = response.data;
                      // 动态赋值
                      // var ops = '<option value="">请选择一个类型</option>';
-                     var ops;
-                     for(var i in data){
+                     let ops = "";
+                     for(let i in data){
                          ops += '<option value="'+ data[i].typeId +'">' + data[i].typeName + "</option>"
                      }
                      $('#second').append(ops);
@@ -168,16 +169,17 @@
           * 商品类型下拉监听---二级菜单
           */
         form.on('select(second)', function(data){
-            var dest = data.value;
+            let dest = data.value;
             $.ajax({
                 type: 'get'
                 ,url: '/api/goodsType/child/' + dest
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
-                    var first = response.data;
-                    var str;
-                    for(var i in first){
+                    let first = response.data;
+                    let str = "";
+                    for(let i in first){
                         str += '<option value="' + + first[i].typeId + '">' + first[i].typeName + '</option>'
                     }
                     $('#type').append(str)
@@ -202,6 +204,7 @@
                 type: 'POST'
                 ,url: '/api/goods/add'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(param)
                 ,success: function(response){
                     $('#reset-btn').click();
@@ -230,10 +233,10 @@
             ,accept: 'images'   // 允许的文件类型
             ,acceptMime: 'image/*'
             ,done: function(res,index,upload){      //服务端响应信息, 当前文件的索引, 重新上传的方法，一般在文件上传失败后使用
-                var data = res.data;
-                var fileDiv = $('#file-div');
-                var str = "";
-                for(var i in data){
+                let data = res.data;
+                let fileDiv = $('#file-div');
+                let str = "";
+                for(let i in data){
                     str += '<div class="layui-inline" style="width: 100px;height: 100%">';
                     str += '<img src="/api/goods/img/' + data[i] + '" />';
                     str += '</div>'
@@ -245,8 +248,8 @@
                 }else{
                     // 追加
                     fileDiv.append(str);
-                    for(var j in data){
-                        var imgUrls = param.imgUrls.push(data[j]);
+                    for(let j in data){
+                        let imgUrls = param.imgUrls.push(data[j]);
                     }
                 }
                 console.log(param)
@@ -259,6 +262,7 @@
         $('#reset-btn').click(function(){
             $('#second').html('<option value="">请选择一个类型</option>');
             $('#type').html('<option value="">请选择一个类型</option>');
+            $('#file-div').html("");
         })
     });
     (function () {

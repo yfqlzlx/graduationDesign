@@ -210,7 +210,7 @@
 </div>
 
 <!-- footer -->
-<div class="footer">
+<div class="footer" style="margin-top: 300px">
     <div class="layui-col-md2 layui-col-md-offset1 footer-name">零一购物商城</div>
     <div class="layui-col-md3 address">四川省成都市双流航空港学府路一段</div>
     <div class="layui-col-md3 phone">全国客服：028-12345678</div>
@@ -262,6 +262,7 @@
                 type: 'POST'
                 ,url: '/api/address/add'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
                     if(response.code === 200){
@@ -301,8 +302,9 @@
             // 提交
             $.ajax({
                 type: 'POST'
-                ,url: '/api/orders/add'
+                ,url: '/api/order/add'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(param)
                 ,success:function(response){
                     layer.alert("购买成功",function () {
@@ -314,25 +316,10 @@
                 }
             })
         })
+
     });
 
     window.onload = function (){
-        /**
-         * 打开添加新地址窗口
-         */
-        $('#add-addredd-box').click(function () {
-            layer.open({
-                type: 1
-                ,title: '添加地址'
-                ,area: ['450px,500px']
-                ,resize: false
-                ,content: $('#add-address-div')
-                ,closeBtn: 0 //不显示右上角的关闭
-                ,success:function () {
-                    $('#userId').val(getUserId());
-                }
-            })
-        });
 
         /**
          * 关闭弹窗
@@ -341,22 +328,27 @@
             layer.closeAll();
         });
 
+
         /**
          * 地址选取的边框效果
          */
-        $(".address-box").click(function(){
-            let item = $(this);
-            if(item.attr('id') === "add-addredd-box"){
-                // 如果是添加按钮，就不操作
-                return ;
-            }
-            // 其他按钮，先取消选中的，再选中当前对象
-            let selected = $('.address-selected');
-            if(selected){
-                selected.removeClass("address-selected")
-            }
-            item.addClass("address-selected");
-        })
+        function bingSelect(){
+            $(".address-box").click(function(){
+                let item = $(this);
+                if(item.attr('id') === "add-addredd-box"){
+                    // 如果是添加按钮，就不操作
+                    return ;
+                }
+                // 其他按钮，先取消选中的，再选中当前对象
+                let selected = $('.address-selected');
+                if(selected){
+                    selected.removeClass("address-selected")
+                }
+                item.addClass("address-selected");
+            })
+        }
+        bingSelect();
+
     };
 
     /**
@@ -369,10 +361,12 @@
                 type: 'DELETE'
                 ,url: '/api/address/del/' + id
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,success:function(response){
                     layer.closeAll();
-                    layer.msg("删除成功");
+                    // bingSelect();
                     addressRender();
+                    layer.msg("删除成功");
                 }
                 ,error:function () {
                     layer.closeAll();
@@ -390,6 +384,7 @@
             type: 'GET'
             ,url: '/api/address/all/' + getUserId()
             ,contentType: "application/json;charset=UTF-8"
+            ,async:false
             ,success:function(response){
                 let data = response.data;
                 let str = "";
@@ -404,8 +399,38 @@
                 // 添加添加地址div
                 str += addDefault();
                 $('#address-container').html(str);
-            }
-            ,error:function () {
+
+                $('#add-addredd-box').click(function () {
+                    layer.open({
+                        type: 1
+                        ,title: '添加地址'
+                        ,area: ['450px,500px']
+                        ,resize: false
+                        ,content: $('#add-address-div')
+                        ,closeBtn: 0 //不显示右上角的关闭
+                        ,success:function () {
+                            $('#userId').val(getUserId());
+                        }
+                    })
+                });
+
+
+                $(".address-box").click(function(){
+                    let item = $(this);
+                    if(item.attr('id') === "add-addredd-box"){
+                        // 如果是添加按钮，就不操作
+                        return ;
+                    }
+                    // 其他按钮，先取消选中的，再选中当前对象
+                    let selected = $('.address-selected');
+                    if(selected){
+                        selected.removeClass("address-selected")
+                    }
+                    item.addClass("address-selected");
+                })
+
+
+            },error:function () {
                 layer.msg("加载地址失败，请刷新重试");
             }
         })
@@ -425,7 +450,7 @@
         }else{
             str += '<div class="address-box">';
         }
-        str += '<input type="hidden" value="' + address.id + '"/>'
+        str += '<input type="hidden" value="' + address.id + '"/>';
         str += '<div class="address-name">' +address.userName + '</div>';
         str += '<div class="address-phone">' + address.phone + '</div>';
         str += '<div class="address-info">' + address.addressName + '</div>';

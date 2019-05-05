@@ -62,6 +62,7 @@
                 type: 'POST'
                 ,url: '/api/user/add'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,data: JSON.stringify(data.field)
                 ,success: function(response){
                     if(response.code === 405){

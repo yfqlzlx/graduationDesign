@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/fontawesome/css/font-awesome.min.css">
     <script src="/static/layui/layui.all.js"></script>
+    <script src="/static/js/common.js"></script>
     <style>
         .module-div{
             width: 100%;
@@ -115,8 +116,8 @@
             <img src="/static/img/logo.png" style="width: 100%;height: 100%"/>
         </div>
         <div class="search-input">
-            <input placeholder="  请输入搜索的商品" />
-            <div>搜索</div>
+            <input placeholder="  请输入搜索的商品" id="search-input"/>
+            <div onclick="searchGoods()">搜索</div>
         </div>
         <div class="app-div">
             <div style="margin-left: 115px;padding-top: 40px">手机商城</div>
@@ -158,16 +159,16 @@
             </div>
             <div class="module-container">
                 <div class="module-goods fisrt-goods">
-                    <img src="/static/img/testGoods.png"/>
-                    <div class="module-desc"><h4>新款xxxxxxxx</h4></div>
+                    <img src="/static/img/山地车.jpg"/>
+                    <div class="module-desc"><h4>新款山地车，5x9多变速</h4></div>
                 </div>
                 <div class="module-goods other-goods">
-                    <img src="/static/img/testGoods.png"/>
-                    <div class="module-desc">限量版绿色xxxxxxxx</div>
+                    <img src="/static/img/绿鞋.jpg"/>
+                    <div class="module-desc">限量版绿色潮鞋</div>
                 </div>
                 <div class="module-goods other-goods">
-                    <img src="/static/img/testGoods.png"/>
-                    <div class="module-desc">网红爆款xxxxxxxxxxxxstys</div>
+                    <img src="/static/img/鸭舌帽.jpg"/>
+                    <div class="module-desc">网红爆款鸭舌帽</div>
                 </div>
             </div>
         </div>
@@ -179,15 +180,15 @@
             </div>
             <div class="module-container">
                 <div class="module-goods fisrt-goods">
-                    <img src="/static/img/testGoods.png"/>
+                    <img src="/static/img/衬衫.jpg"/>
                     <div class="module-desc"><h4>潮牌衬衫</h4></div>
                 </div>
                 <div class="module-goods other-goods">
-                    <img src="/static/img/testGoods.png"/>
+                    <img src="/static/img/山竹.jpg"/>
                     <div class="module-desc">新鲜泰国山竹</div>
                 </div>
                 <div class="module-goods other-goods">
-                    <img src="/static/img/testGoods.png"/>
+                    <img src="/static/img/天王表.jpg"/>
                     <div class="module-desc">天王表 天猫联名款</div>
                 </div>
             </div>
@@ -241,6 +242,7 @@
                 type: 'get'
                 ,url: '/api/goodsType/group'
                 ,contentType: "application/json;charset=UTF-8"
+                ,async:false
                 ,success: function(response){
                     let str = "";
                     let data = response.data;
@@ -265,7 +267,6 @@
             });
         }
         init();
-
     });
 
     /**
@@ -282,6 +283,7 @@
             type: 'get'
             ,url: '/api/goodsType/info/' + tyepKey
             ,contentType: "application/json;charset=UTF-8"
+            ,async:false
             ,success: function (response) {
                 var str = "";
                 var data = response.data;
