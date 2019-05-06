@@ -2,6 +2,7 @@ package org.yf.manage.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
 import org.yf.common.entity.User;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface UserMapper extends BaseMapper<User> {
      * @param user 条件
      * @return 满足条件的结果
      */
-    IPage<User> queryUser(IPage page,User user);
+    IPage<User> queryUser(IPage page,@Param("user") User user);
 }

@@ -1,6 +1,7 @@
 package org.yf.manage.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
 import org.yf.common.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -14,7 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface GoodsMapper extends BaseMapper<Goods> {
 
-    IPage<Goods> queryGoods(IPage page, Goods goods);
+    IPage<Goods> queryGoods(IPage page, @Param("goods") Goods goods);
 
     int  insertGoods(Goods goods);
 }

@@ -8,17 +8,17 @@
         from
           user a
         <where>
-            <if test="arg1.username != null and arg1.username !=''">
-                a.username=#{arg1.username}
+            <if test="user.username != null and user.username !=''">
+                a.username=#{user.username}
             </if>
-            <if test="arg1.phone != null and arg1.phone!= ''">
-                and a.phone=#{arg1.phone}
+            <if test="user.phone != null and user.phone!= ''">
+                and a.phone=#{user.phone}
             </if>
-            <if test="arg1.mail != null and arg1.mail != ''" >
-                and a.mail=#{arg1.mail}
+            <if test="user.mail != null and user.mail != ''" >
+                and a.mail=#{user.mail}
             </if>
-            <if test="arg1.type != null and arg1.type != ''">
-                and a.type=#{arg1.type}
+            <if test="user.type != null and user.type != ''">
+                and a.type=#{user.type}
             </if>
         </where>
         order by insert_time desc
